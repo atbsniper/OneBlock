@@ -1,54 +1,56 @@
+/* General body styling */
 body {
-  background-image: url('91596.jpg'); /* Replace '91596.jpg' with the actual path to your background image */
+  background-image: url(''); /* Replace with actual path */
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
-  font-family: Arial, sans-serif; /* Specify a fallback font family */
+  font-family: Arial, sans-serif;
 }
 
 /* Header */
 .header {
-  background-color: #1e354ed3; /* University color */
+  background-color: #1e354ed3;
   color: #faf0f0;
-  padding: 20px 10px; /* Increase the top and bottom padding */
-  height: 80px; /* Set the height of the banner */
+  padding: 20px 10px;
+  height: 80px;
   width: 100%;
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 999; /* Ensure it's on top of other elements */
+  z-index: 999;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .header .title {
-  font-size: 50px; /* Adjust the font size as needed */
+  font-size: 50px;
   font-weight: bold;
   font-family: monospace;
 }
 
 .header .logo {
   position: absolute;
-  top: 10px; /* Adjust the top position as needed */
-  right: 10px; /* Adjust the right position as needed */
-  width: 150px; /* Adjust the width as needed */
-  height: auto; 
+  top: 10px;
+  right: 10px;
+  width: 150px;
+  height: auto;
 }
 
 .header .logo img {
-  height: 60px; /* Adjust height as needed */
+  height: 60px;
 }
 
+/* Login form */
 .login-page-main {
   width: 350px;
-  height: 450px;
-  margin: 0 auto; /* Add margin to the top to account for the header */
-  padding: 15px;
-  border: 1px solid #cccccc00;
+  height: auto;
+  margin: 0 auto;
+  padding: 20px;
   border-radius: 5px;
   background-color: #1e354eb0;
   box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
+  overflow: hidden; /* To ensure input fields don’t exceed the container */
 }
 
 .login-page-main h2 {
@@ -60,39 +62,62 @@ body {
   font-family: monospace;
 }
 
-.login-page-main input {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-weight: bold;
-  font-size: large;
-  color: #000;
-  font-family: monospace;
-  background-color: #faf0f0;
-}
-
+/* Input container */
 .input-container {
-  text-align: left;
-  padding: 5px;
-  margin-bottom: 0px;
-  font-weight: bold;
-  font-size:x-large;
-  color: #faf0f0;
-  font-family:monospace;
+  position: relative;
+  margin-bottom: 15px;
 }
 
 .input-container input {
-  width: 92%;
-  padding: 10px;
+  width: calc(100% - 40px); /* Subtract space for icon and separator */
+  padding: 10px 10px 10px 40px; /* Extra left padding for icon */
   border: 1px solid #cccccc00;
   border-radius: 2px;
   background-color: #c6dbe1ec;
   box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
-  font-family:monospace;
+  font-family: monospace;
+  font-size: large;
 }
 
+/* Positioning the icon inside the input */
+.input-container .input-icon {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  font-size: 24px;
+  color: #333;
+}
+
+/* Separator (vertical line) */
+.separator {
+  position: absolute;
+  top: 50%;
+  left: 35px; /* Positioned just after the icon */
+  transform: translateY(-50%);
+  width: 1px;
+  height: 30px;
+  background-color: #333;
+}
+
+/* Show password container */
+.show-password-container {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  font-family: monospace;
+}
+
+.show-password-container input {
+  margin-right: 10px;
+}
+
+.show-password-container label {
+  color: #faf0f0;
+  font-size: large;
+}
+
+/* Button styling */
 .login-page-main button {
   width: 100%;
   background-color: #000000;
@@ -107,17 +132,22 @@ body {
   font-family: monospace;
   font-size: x-large;
   padding: 15px;
-  width: 330px;
-
 }
 
 .login-page-main button:hover {
   background-color: #218838;
 }
 
+/* Error message */
 .login-page-main .error-message {
   color: rgb(255, 0, 0);
   margin-top: 15px;
   font-family: monospace;
   font-size: larger;
+}
+/* Styling for reCAPTCHA */
+.recaptcha-container {
+  margin-top :20px;
+  display: flex;
+  justify-content: center;
 }
