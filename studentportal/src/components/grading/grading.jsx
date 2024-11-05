@@ -179,6 +179,7 @@ const Grading = () => {
               <th>Assignment 3</th>
               <th>Mid</th>
               <th>Final</th>
+             
             </tr>
           </thead>
           <tbody>
