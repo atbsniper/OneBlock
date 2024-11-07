@@ -2,23 +2,25 @@ import React, { useEffect, useState } from "react";
 import { db } from "../../firebase/firebaseConfig";
 import { addDoc, collection } from "firebase/firestore";
 import { toast } from "react-toastify";
-import { v4 as uuidv4 } from "uuid"; // Import UUID library to generate unique IDs
+import { v4 as uuidv4 } from "uuid";
+import "./AddTeacher.css"; // Import the CSS file
 
 function AddTeacher() {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [courses, setCourses] = useState([]);
-  const [course, setCourse] = useState([]);
+  const [course, setCourse] = useState("");
+  const [courseID, setCourseID] = useState(""); // State for course ID input
+
   const addTeacherFirebase = async () => {
-    console.log(courses.length);
-    if (name == "" || password == "" || courses.length == 0) {
+    if (name === "" || password === "" || courses.length === 0) {
       toast("Please fill the fields");
     } else {
       try {
         const docRef = await addDoc(collection(db, "teachers"), {
-          name: name,
-          password: password,
-          courses: courses,
+          name,
+          password,
+          courses,
         });
         console.log("Document written with ID: ", docRef.id);
         toast("Teacher added successfully", { toastId: docRef.id });
@@ -28,20 +30,18 @@ function AddTeacher() {
     }
   };
 
-  // Function to generate a unique courseID based on courseName
-  const generateCourseId = (courseName) => {
-    // Here, you can implement your own logic to generate courseID based on courseName
-    // For now, I'm using a simple UUID generator
-    return uuidv4();
-  };
-
-  // Function to handle input change
+  // Function to handle course addition
   const handleInputChange = () => {
-    // const courseName = e.target.value;
-    const courseID = generateCourseId(course);
+    if (course === "") {
+      toast("Please enter a course name");
+      return;
+    }
 
-    // Update state with the new course object
-    setCourses([...courses, { courseName: course, courseID: courseID }]);
+    // Use user-provided courseID or generate one
+    const newCourseID = courseID || uuidv4();
+    setCourses([...courses, { courseName: course, courseID: newCourseID }]);
+    setCourse(""); // Clear course input
+    setCourseID(""); // Clear course ID input
   };
 
   useEffect(() => {
@@ -49,36 +49,44 @@ function AddTeacher() {
   }, [courses]);
 
   return (
-    <div>
+    <div className="add-teacher-container"> {/* Scoped container */}
       <h1>Add Teacher/Courses</h1>
       <input
         type="text"
         placeholder="Teacher Name"
+        value={name}
         onChange={(e) => setName(e.target.value)}
       />
       <input
         type="password"
         placeholder="Password"
+        value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
 
       <input
         type="text"
-        placeholder="Courses"
+        placeholder="Course Name"
+        value={course}
         onChange={(e) => setCourse(e.target.value)}
       />
-      <button onClick={handleInputChange}>Add course</button>
+      <input
+        type="text"
+        placeholder="Course ID (optional)"
+        value={courseID}
+        onChange={(e) => setCourseID(e.target.value)}
+      />
+      <button onClick={handleInputChange}>Add Course</button>
 
       <ul>
-        {/* Display the list of courses */}
         {courses.map((course, index) => (
           <li key={index}>
-            Course Name: {course.courseName}, Course ID: {course.courseID}
+            Course Name: <span>{course.courseName}</span>, Course ID: <span>{course.courseID}</span>
           </li>
         ))}
       </ul>
 
-      <button onClick={addTeacherFirebase}>Add teacher</button>
+      <button onClick={addTeacherFirebase}>Add Teacher</button>
     </div>
   );
 }
