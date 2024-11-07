@@ -3,6 +3,9 @@
   margin: 0 auto;
   padding: 20px;
   font-family: Arial, sans-serif;
+  z-index: 1;
+  position: relative; /* Ensures stacking context relative to other elements */
+  margin-top: 20px; /* Adds space below the banner to prevent overlap */
 }
 
 .course-selection h3,
@@ -86,4 +89,3 @@
   background-color: red;
   color: rgb(255, 255, 255);
 }
-
