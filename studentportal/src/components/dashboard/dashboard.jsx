@@ -16,10 +16,6 @@ const Dashboard = () => {
     setLoggedInUser(JSON.parse(localStorage.getItem("loggedInUser")));
   }, []);
 
-  useEffect(() => {
-    console.log(loggedInUser);
-  }, [loggedInUser]);
-
   const handleLogout = () => {
     setLoggedInUser(null);
     localStorage.removeItem("loggedInUser");
@@ -28,7 +24,9 @@ const Dashboard = () => {
 
   return (
     <div>
-      <Banner /> {/* Add the Banner component */}
+      <div className="banner-container">
+        <Banner /> {/* Add the Banner component */}
+      </div>
       <div className="dashboard">
         <h2>Welcome, {loggedInUser?.name}</h2>
         <h3>Select a Course</h3>

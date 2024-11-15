@@ -1,8 +1,8 @@
-import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
 import React, { useState } from "react";
+import { addDoc, collection, getDocs } from "firebase/firestore";
 import { toast } from "react-toastify";
 import { db } from "../../firebase/firebaseConfig";
-import students from "./students"; // Import the student data
+import "./addstudents.css";
 
 function Addstudents() {
   const [name, setName] = useState("");
@@ -10,72 +10,43 @@ function Addstudents() {
 
   // Function to add a single student
   const handleAddStudent = async () => {
-    if (name === "" || rollNo === "") {
-      toast("Please fill the fields");
-    } else {
-      try {
-        const docRef = await addDoc(collection(db, "students"), {
-          name: name,
-          rollNo: rollNo,
-        });
-        console.log("Document written with ID: ", docRef.id);
-        toast("Student added successfully", { toastId: docRef.id });
-      } catch (error) {
-        console.log(error);
-      }
+    if (!name || !rollNo) {
+      toast("Please fill in all fields");
+      return;
     }
-  };
-
-  // Function to add students in bulk without duplicates
-  const handleBulkAddStudents = async () => {
     try {
-      // Step 1: Retrieve all existing students from Firestore
-      const querySnapshot = await getDocs(collection(db, "students"));
-      const existingStudents = querySnapshot.docs.map((doc) => ({
-        rollNo: doc.data().rollNo,
-      }));
-
-      // Step 2: Filter out students already in Firestore based on rollNo
-      const newStudents = students.filter(
-        (student) => !existingStudents.some((existing) => existing.rollNo === student.rollNo)
-      );
-
-      // Step 3: Add only new, unique students
-      if (newStudents.length > 0) {
-        const batch = newStudents.map((student) =>
-          addDoc(collection(db, "students"), {
-            name: student.name,
-            rollNo: student.rollNo,
-          })
-        );
-        await Promise.all(batch);
-        toast("New students added successfully!");
-      } else {
-        toast("No new students to add.");
-      }
+      // Attempt to add document to "students" collection
+      const docRef = await addDoc(collection(db, "students"), {
+        name: name,
+        rollNo: rollNo,
+      });
+      console.log("Document written with ID: ", docRef.id);
+      toast("Student added successfully", { toastId: docRef.id });
+      // Clear input fields
+      setName("");
+      setRollNo("");
     } catch (error) {
-      console.error("Error adding students in bulk:", error);
-      toast("Error adding students in bulk");
+      console.error("Error adding student: ", error);
+      toast("Error adding student, please try again.");
     }
   };
 
   return (
-    <div>
+    <div className="add-students-container">
       <h1>Add Students</h1>
       <input
         type="text"
-        placeholder="name"
+        placeholder="Name"
+        value={name}
         onChange={(e) => setName(e.target.value)}
       />
       <input
         type="text"
-        placeholder="Roll no"
+        placeholder="Roll No"
+        value={rollNo}
         onChange={(e) => setRollNo(e.target.value)}
       />
       <button onClick={handleAddStudent}>Add Student</button>
-
-      <h2>Or</h2>
-      <button onClick={handleBulkAddStudents}>Add Students in Bulk</button>
     </div>
   );
 }
