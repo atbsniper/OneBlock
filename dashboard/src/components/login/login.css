@@ -1,0 +1,130 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Courier New', Courier, monospace;
+  background: linear-gradient(to right, #A0C49D, #C4D7B2, #E1ECC8, #A0C49D); 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.login-container {
+  display: flex;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  width: 1200px; /* Increased width */
+  overflow: hidden;
+}
+
+.left-section, .right-section {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #27374D; /* Same background for both sections */
+}
+
+.login-image {
+  max-width: 80%;
+  max-height: 80%;
+  object-fit: contain; /* Ensures the image is centered and fits well */
+}
+
+.divider {
+  width: 1px; /* Reduced width */
+  background: #ccc; /* Ensure the line is visible */
+  height: 50%; /* Adjust height to reduce the length of the line */
+  margin: auto 0;
+}
+
+.right-section {
+  flex-direction: column; /* Align items vertically */
+  padding: 40px;
+}
+
+.logo img {
+  display: block;
+  margin: 0 auto 20px;
+  width: 200px;
+}
+
+h2 {
+  margin: 25px 0;
+  color: #ffffff;
+  position: relative;
+  font-size: large;
+  padding-right: 410px;
+  font-weight: bold;
+}
+
+h2::before {
+  content: '';
+  position: absolute;
+  left: 0px; /* Adjust this value to align with the input boxes */
+  top: -20px;
+  width: 50px;
+  height: 3px;
+  background: linear-gradient(to right, #A0C49D, #C4D7B2, #E1ECC8, #A0C49D);
+}
+
+.input-container {
+  width: 100%; /* Ensure inputs take full width */
+  margin: 0px;
+  position: relative;
+}
+
+.input-container input {
+  width: 100%;
+  padding: 15px 50px;
+  margin: 15px 0;
+  border: 1px solid #ccc;
+  border-radius: 25px;
+  font-size: 16px;
+  background: #f9f9f9;
+}
+
+.input-container .icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 20px;
+  color: #ccc;
+}
+
+.input-container .icon-user {
+  left: 20px;
+}
+
+.input-container .icon-lock {
+  left: 20px;
+}
+
+button {
+  width: 100%;
+  padding: 15px;
+  background: #A0C49D;
+  border: none;
+  border-radius: 25px;
+  color: black;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  margin-top: 20px;
+  font-weight: bold;
+}
+
+button:hover {
+  background: #C4D7B2;
+}
+
+.error-message {
+  color: red;
+  text-align: center;
+  margin-top: 10px;
+}
