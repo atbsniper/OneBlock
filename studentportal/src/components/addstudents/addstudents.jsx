@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, getDocs } from "firebase/firestore";
 import { toast } from "react-toastify";
 import { db } from "../../firebase/firebaseConfig";
 import "./addstudents.css";
@@ -8,6 +8,7 @@ function Addstudents() {
   const [name, setName] = useState("");
   const [rollNo, setRollNo] = useState("");
 
+  // Function to add a single student
   const handleAddStudent = async () => {
     if (!name || !rollNo) {
       toast("Please fill in all fields");

@@ -1,0 +1,200 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  overflow: hidden; /* Remove scrollbars */
+}
+
+.dashboard-main-component {
+  padding: 20px;
+  flex-grow: 1;
+  background-color: #ffffff00;
+  margin-left: 530px; 
+  margin-right: 290px;
+  margin-top: 0px;
+  width: 150vh;
+}
+
+.graph-container {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.single-graph {
+  flex: 1;
+  min-width: 300px;
+  box-shadow: 0px 0px 10px 10px #00000008;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #fff;
+  margin-bottom: 20px;
+}
+
+.single-graph h3 {
+  margin-bottom: 20px;
+  color: #333;
+  font-weight: bold;
+}
+
+.tables-starts {
+  box-shadow: 0px 0px 10px 10px #00000008;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #ffffff;
+  margin-top: 10px;
+  overflow-x: auto; /* Added to handle horizontal overflow */
+}
+
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto; /* Ensures the table fits within the wrapper */
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed; /* Ensures fixed layout for columns */
+}
+
+th, td {
+  border-bottom: 1px solid #ddd;
+  white-space: nowrap; /* Prevents text from wrapping */
+  overflow: hidden;
+  text-overflow: ellipsis; /* Adds ellipsis for overflowing text */
+}
+
+th {
+  padding: 15px 10px; /* Adjust padding for headers as needed */
+  background-color: #ffffff;
+}
+
+td {
+  padding: 10px; /* Adjust padding for data cells as needed */
+  max-width: 200px; /* Adjust as needed */
+}
+
+
+th:nth-child(1), td:nth-child(2) {
+  width: 170px; /* Adjust width for 'type' column */
+}
+
+th:nth-child(2), td:nth-child(3) {
+  width: 150px; /* Adjust width for 'type' column */
+  
+}
+
+th:nth-child(3), td:nth-child(4) {
+  width: 130px; /* Adjust width for 'type' column */
+}
+
+th:nth-child(4), td:nth-child(5) {
+  width: 170px; /* Adjust width for 'type' column */
+}
+
+th:nth-child(5), td:nth-child(6) {
+  width: 150px; /* Adjust width for 'type' column */
+}
+
+th:nth-child(6), td:nth-child(7) {
+  width: 120px; /* Adjust width for 'type' column */
+}
+
+th:nth-child(7), td:nth-child(8) {
+  width: 100px; /* Adjust width for 'type' column */
+}
+
+th:nth-child(8), td:nth-child(9) {
+  width: 300px; /* Adjust width for 'Transaction Hash' column */
+}
+
+.tables-starts h3 {
+  margin-bottom: 20px;
+  color: #333;
+  font-weight: bold;
+}
+
+.main-aside-wrapp {
+  width: 250px; /* Fixed width for the sidebar */
+  background: black;
+  color: white;
+  height: 100vh; /* Full height */
+  position: fixed; /* Fixed position */
+  top: 0;
+  left: 0;
+  border-radius: 0; /* Remove border radius */
+  padding: 20px;
+}
+
+.main-aside-wrapp h1 {
+  font-size: 25px;
+  font-weight: 900;
+  margin: 10px 0;
+  text-align: center;
+}
+
+.main-aside-wrapp ul {
+  padding-top: 50px;
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.main-aside-wrapp ul li {
+  margin-top: 10px;
+}
+
+.main-aside-wrapp ul li a {
+  color: white;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.main-aside-wrapp ul li a:hover {
+  text-decoration: underline;
+}
+
+.logoutwrapp {
+  position: absolute;
+  bottom: 30px;
+  left: 20px;
+}
+
+button.btn {
+  padding: 10px 20px;
+  color: #fff;
+  background-color: #28a745;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button.btn:hover {
+  background-color: #28a745;
+}
+
+@media (max-width: 768px) {
+  .main-aside-wrapp {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+
+  .dashboard-main-component {
+    margin-left: 0;
+    width: 100%;
+  }
+}
+.graph-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.view-mode-dropdown {
+  position: relative;
+  top: 50px; /* Adjust as needed */
+  right: 0px; /* Adjust as needed */
+}

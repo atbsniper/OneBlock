@@ -1,0 +1,59 @@
+.main-aside-wrapp {
+  width: 12%;
+  background: #000000;
+  color: white;
+  position:fixed; /* Fixed position to stick to the leftmost side */
+  top: 0;
+  left: 0;
+  height: 100vh; /* Full height */
+  border-radius: 0; /* Remove border radius */
+  padding: 20px;
+  overflow-y: auto; /* Added to handle overflow */
+}
+
+.main-aside-wrapp h1 {
+  font-size: 25px;
+  font-weight: 900;
+  margin: 10px 0;
+  text-align: center;
+}
+
+.main-aside-wrapp ul {
+  padding-top: 50px;
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.main-aside-wrapp ul li {
+  margin-top: 10px;
+}
+
+.main-aside-wrapp ul li a {
+  color: white;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.main-aside-wrapp ul li a:hover {
+  text-decoration: underline;
+}
+
+.logoutwrapp {
+  position: absolute;
+  bottom: 30px;
+  left: 50px;
+}
+
+button.btn {
+  padding: 10px 20px;
+  color: #fff;
+  background-color: #dc3545;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button.btn:hover {
+  background-color: #c82333;
+}
