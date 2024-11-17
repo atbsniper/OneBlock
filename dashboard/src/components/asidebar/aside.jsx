@@ -22,7 +22,7 @@ function AsideBar() {
 
   return (
     <div className="main-aside-wrapp">
-      <h1 className="mt-3 text-center text-bold">Log Guard</h1>
+      <h1 className="mt-3 text-center text-bold">One Block</h1>
       <ul>
         <li>
           <Link to="/dashboard">Dashboard</Link>
