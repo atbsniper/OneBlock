@@ -26,14 +26,21 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 const db = getFirestore(app);
+
 const getStudents = async () => {
-  let students = [];
-  const querySnapshot = await getDocs(collection(db, "students"));
-  querySnapshot.forEach((doc) => {
-    students.push(doc.data());
-  });
-  return students;
+  try {
+    let students = [];
+    const querySnapshot = await getDocs(collection(db, "students"));
+    querySnapshot.forEach((doc) => {
+      students.push(doc.data());
+    });
+    return students;
+  } catch (error) {
+    console.error("Error fetching students: ", error.message);
+    throw new Error("Unable to fetch students");
+  }
 };
+
 
 // Fetches all logs from the smart contract
 exports.getLog = async (req, res, next) => {
