@@ -41,22 +41,27 @@ const getStudents = async () => {
   }
 };
 
-
 // Fetches all logs from the smart contract
 exports.getLog = async (req, res, next) => {
-  var data = await logGard.methods.getLogs().call();
-  const transformedData = data.map((obj) => ({
-    tokenId: Number(obj.tokenId),
-    uri: obj.uri, 
-  }));
+  try {
+    var data = await logGard.methods.getLogs().call();
+    const transformedData = data.map((obj) => ({
+      tokenId: Number(obj.tokenId),
+      uri: obj.uri,
+    }));
 
-  console.log(transformedData);
+    console.log(transformedData);
 
-  res.status(200).json({
-    status: "success",
-    logs: transformedData,
-  });
+    res.status(200).json({
+      status: "success",
+      logs: transformedData,
+    });
+  } catch (error) {
+    console.error("Error fetching logs: ", error.message);
+    res.status(500).json({ status: "error", message: "Failed to fetch logs" });
+  }
 };
+
 // uploads new logs to the smart contract 
 exports.uploadLogs = async (req, res, next) => {
   const { action, teacherName, type, data, prevData } = req.body;
