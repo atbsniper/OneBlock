@@ -84,6 +84,7 @@ exports.uploadLogs = async (req, res, next) => {
 
   const ipAddress = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
   const userAgent = req.headers["user-agent"];
+
   // Function to detect browser
   function detectBrowser(userAgent) {
     if (/edg/i.test(userAgent)) {
@@ -115,8 +116,8 @@ exports.uploadLogs = async (req, res, next) => {
     teacherName: teacherName,
     action: action,
     type: type,
-    data: JSON.stringify(data),
-    prevData: JSON.stringify(prevData),
+    data: JSON.stringify(data || {}),
+    prevData: JSON.stringify(prevData || {}),
   };
 
   const tx = {
