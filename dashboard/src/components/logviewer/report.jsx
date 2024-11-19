@@ -61,7 +61,7 @@ function Alerts() {
   }, []);
 
   useEffect(() => {
-    // Processes the fetched logs to extract alert-related information
+    /// Processes the fetched logs to extract alert-related information
     const processTableData = () => {
       let alertCount = 0;
       let attendanceCount = 0;
