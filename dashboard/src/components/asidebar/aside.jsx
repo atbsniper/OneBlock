@@ -1,46 +1,50 @@
 import React, { useEffect } from "react";
-import "./asidebar.css"; // Import the new CSS file
 import { Link, useNavigate } from "react-router-dom";
+import "./asidebar.css"; // Import the CSS for styling
 
-function AsideBar() {
+const AsideBar = () => {
   const navigate = useNavigate();
 
   const handleLogOut = () => {
+    // Remove user log from local storage
     localStorage.removeItem("loggedInUserLog");
+    // Redirect to the homepage
     navigate("/");
   };
 
   useEffect(() => {
-    const test = localStorage.getItem("loggedInUserLog");
-    console.log(test);
-    if (test === "admin") {
-      // do nothing, user is admin
-    } else {
+    // Check logged-in user from local storage
+    const loggedInUser = localStorage.getItem("loggedInUserLog");
+    console.log(loggedInUser);
+    // Redirect to homepage if the user is not an admin
+    if (loggedInUser !== "admin") {
       navigate("/");
     }
-  }, [localStorage.getItem("loggedInUserLog")]);
+  }, [navigate]); // Dependency array with navigate to prevent unnecessary re-renders
 
   return (
-    <div className="main-aside-wrapp">
+    <aside className="main-aside-wrapp">
       <h1 className="mt-3 text-center text-bold">One Block</h1>
-      <ul>
-        <li>
-          <Link to="/dashboard">Dashboard</Link>
-        </li>
-        <li>
-          <Link to="/alerts">Alerts</Link>
-        </li>
-        <li>
-          <Link to="/report">Log Viewer</Link>
-        </li>
-      </ul>
+      <nav>
+        <ul>
+          <li>
+            <Link to="/dashboard">Dashboard</Link>
+          </li>
+          <li>
+            <Link to="/alerts">Alerts</Link>
+          </li>
+          <li>
+            <Link to="/report">Log Viewer</Link>
+          </li>
+        </ul>
+      </nav>
       <div className="logoutwrapp">
         <button className="btn" onClick={handleLogOut}>
           Log Out
         </button>
       </div>
-    </div>
+    </aside>
   );
-}
+};
 
 export default AsideBar;
