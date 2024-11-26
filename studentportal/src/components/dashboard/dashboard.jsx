@@ -28,8 +28,7 @@ const Dashboard = () => {
         <Banner /> {/* Add the Banner component */}
       </div>
       <div className="dashboard">
-        <h2>Welcome, {loggedInUser?.name}</h2>
-        <h3>Select a Course</h3>
+        <h2>Welcome {loggedInUser?.name}, Select a Course</h2>
         <div className="course-boxes">
           {loggedInUser?.courses?.map((course, index) => (
             <div 
