@@ -72,7 +72,6 @@ exports.uploadLogs = async (req, res, next) => {
   const privateKey = process.env.VITE_SIGNER_PRIVATE_KEY;
   const PublicKey = process.env.VITE_ADMIN_ADDRESS;
   const logGardContractAddress = process.env.CNTRACTADDRESS;
-
  
   const currentTime = new Date();
   const date = currentTime.toISOString().slice(0, 10);

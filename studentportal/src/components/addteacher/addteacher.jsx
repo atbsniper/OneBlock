@@ -3,7 +3,7 @@ import { db } from "../../firebase/firebaseConfig";
 import { addDoc, collection } from "firebase/firestore";
 import { toast } from "react-toastify";
 import { v4 as uuidv4 } from "uuid";
-import "./AddTeacher.css"; // Import the CSS file
+import "./addteacher.css"; // Import the CSS file
 
 function AddTeacher() {
   const [name, setName] = useState("");
