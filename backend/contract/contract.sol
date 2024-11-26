@@ -36,7 +36,6 @@ function uploadLog(address to,string memory log) public onlyOwner returns (uint2
     return tokenId;
 }
 
-
     // The following functions are overrides required by Solidity.
 
     function _update(address to, uint256 tokenId, address auth)
