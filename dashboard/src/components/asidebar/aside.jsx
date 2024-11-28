@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "./asidebar.css"; // Import the CSS for styling
+import "./asidebar.css"; 
 
 const AsideBar = () => {
   const navigate = useNavigate();

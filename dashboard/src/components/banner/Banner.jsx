@@ -1,4 +1,4 @@
-// src/components/banner/Banner.jsx
+
 import React from "react";
 import airUniversityLogo from "./fastlogo.png";
 import "./banner.css"; // Ensure the correct path to CSS
