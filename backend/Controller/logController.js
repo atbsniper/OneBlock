@@ -1,3 +1,5 @@
+// Contract as contract.sol
+
 const logGard = require("../Model/logModel");
 const { Web3 } = require("web3");
 const {
