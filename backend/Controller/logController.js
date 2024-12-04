@@ -1,5 +1,4 @@
-// Contract as contract.sol
-
+// Contract as contract.sol in contract folder.
 const logGard = require("../Model/logModel");
 const { Web3 } = require("web3");
 const {
