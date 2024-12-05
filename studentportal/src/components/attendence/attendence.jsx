@@ -1,43 +1,45 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { db, getStudents } from "../../firebase/firebaseConfig";
-import { addDoc, collection, doc, getDoc, setDoc } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  setDoc,
+  Timestamp,
+} from "firebase/firestore";
 import axios from "axios";
 import { toast } from "react-toastify";
 import Banner from "../banner/Banner";
-import "./attendence.css";
+import "./attendence.css"; 
 
 const Attendance = () => {
   const { id } = useParams();
-  const [students, setStudents] = useState([]);
-  const [attendanceData, setAttendanceData] = useState([]);
+  const [students, setStudents] = useState();
   const [selectedDate, setSelectedDate] = useState("");
-  const [loggedInUser, setLoggedInUser] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [attendanceData, setAttendanceData] = useState();
 
-  const fetchStudents = async () => {
-    try {
-      const studentsList = await getStudents();
-      setStudents(studentsList);
-    } catch (error) {
-      console.error("Error fetching students:", error);
-    }
+  const getStudentsFire = async () => {
+    const test = await getStudents();
+    setStudents(test);
   };
 
   useEffect(() => {
-    fetchStudents();
-    const user = JSON.parse(localStorage.getItem("loggedInUser"));
-    setLoggedInUser(user);
+    getStudentsFire();
   }, []);
 
+  // Initializes the attendance data based
   useEffect(() => {
-    if (students.length) {
-      const defaultAttendance = students.map((student) => ({
-        rollNo: student.rollNo,
-        name: student.name,
-        isPresent: false,
-      }));
-      setAttendanceData(defaultAttendance);
+    if (students) {
+      console.log(students);
+      setAttendanceData(() => {
+        return students.map((student) => ({
+          rollNo: student.rollNo,
+          isPresent: false,
+          name: student.name,
+        }));
+      });
     }
   }, [students]);
 
@@ -45,94 +47,219 @@ const Attendance = () => {
     setSelectedDate(event.target.value);
   };
 
-  const fetchAttendanceForDate = async () => {
-    if (!selectedDate) return;
-
-    const attendanceDocRef = doc(db, "attendance", id);
-    try {
-      const docSnap = await getDoc(attendanceDocRef);
-      if (docSnap.exists()) {
-        const dataForDate = docSnap.data()[selectedDate] || {};
-        const updatedAttendance = students.map((student) => ({
-          rollNo: student.rollNo,
-          name: student.name,
-          isPresent: dataForDate[student.rollNo]?.isPresent || false,
-        }));
-        setAttendanceData(updatedAttendance);
-      }
-    } catch (error) {
-      console.error("Error fetching attendance data:", error);
-    }
+  const handleBack = () => {
+    window.history.back(); // Navigates back to the previous page in history
   };
 
+  // Fetches attendance data
   useEffect(() => {
-    fetchAttendanceForDate();
+    const fetchAttendanceData = async () => {
+      if (selectedDate) {
+        const attendanceDocRef = doc(db, "attendance", id);
+        try {
+          const attendanceDocSnap = await getDoc(attendanceDocRef);
+          if (attendanceDocSnap.exists()) {
+            const attendanceRecord = attendanceDocSnap.data()[selectedDate];
+            console.log(attendanceRecord);
+            const newAttendanceData = students.map((student) => ({
+              rollNo: student.rollNo,
+              name: student.name,
+              isPresent:
+                attendanceRecord && attendanceRecord[student.rollNo]
+                  ? attendanceRecord[student.rollNo].isPresent
+                  : false,
+            }));
+            console.log(newAttendanceData);
+            setAttendanceData(newAttendanceData);
+          } else {
+            setAttendanceData(() => {
+              return students.map((student) => ({
+                rollNo: student.rollNo,
+                name: student.name,
+                isPresent: false,
+              }));
+            });
+          }
+        } catch (error) {
+          console.error("Error fetching attendance:", error);
+        }
+      }
+    };
+
+    fetchAttendanceData();
   }, [selectedDate]);
 
-  const toggleAttendance = (rollNo) => {
-    setAttendanceData((prevData) =>
-      prevData.map((record) =>
-        record.rollNo === rollNo
-          ? { ...record, isPresent: !record.isPresent }
-          : record
-      )
-    );
+  const handleAttendanceChange = (rollNo) => {
+    setAttendanceData((prevAttendanceData) => {
+      const updatedAttendanceData = prevAttendanceData.map((data) => {
+        if (data.rollNo === rollNo) {
+          return { ...data, isPresent: !data.isPresent };
+        }
+        return data;
+      });
+      return updatedAttendanceData;
+    });
   };
 
-  const saveAttendance = async () => {
-    if (!selectedDate) {
-      toast.error("Please select a date");
-      return;
-    }
+  const [loggedInUser, setLoggedInUser] = useState("");
+  useEffect(() => {
+    setLoggedInUser(JSON.parse(localStorage.getItem("loggedInUser")));
+    console.log(JSON.parse(localStorage.getItem("loggedInUser")));
+  }, [localStorage.getItem("loggedInUser")]);
 
+  const currentURL = window.location.href;
+  const [loading, setLoading] = useState(false);
+
+  // Saves the attendance data to Firestore
+  const handleSaveAttendance = async () => {
     setLoading(true);
     const url = `${import.meta.env.VITE_BASE_URL_LIVE}/LogGard/uploadLogs`;
-    const attendanceDocRef = doc(db, "attendance", id);
-    const attendanceRecord = attendanceData.reduce((acc, curr) => {
-      acc[curr.rollNo] = { name: curr.name, isPresent: curr.isPresent };
-      return acc;
-    }, {});
 
+    const attendanceCollectionRef = doc(db, "attendance", id);
+    const attendanceRecord = {};
+    attendanceData.forEach((data) => {
+      attendanceRecord[data.rollNo] = {
+        name: data.name,
+        isPresent: data.isPresent,
+      };
+    });
     try {
-      const docSnap = await getDoc(attendanceDocRef);
-      const existingData = docSnap.exists() ? docSnap.data() : {};
-
-      const isFirstTime = !existingData[selectedDate];
-      const actionType = isFirstTime ? "log" : "alert";
-
-      await axios.post(url, {
-        teacherName: loggedInUser.name,
-        action: "attendance",
-        type: actionType,
-        data: attendanceRecord,
-        prevData: existingData[selectedDate] || {},
-      });
-
-      await setDoc(
-        attendanceDocRef,
-        { [selectedDate]: attendanceRecord },
-        { merge: true }
-      );
-
-      toast.success("Attendance saved successfully");
+      const attendanceDocSnap = await getDoc(attendanceCollectionRef);
+      console.log(attendanceDocSnap.data());
+      if (attendanceDocSnap.data()) {
+        console.log(attendanceDocSnap.data()[selectedDate]);
+        if (attendanceDocSnap.data()[selectedDate]) {
+          console.log("record already present");
+          console.log(typeof attendanceRecord);
+          console.log(attendanceRecord);
+          await axios
+            .post(url, {
+              teacherName: loggedInUser.name,
+              action: currentURL.includes("grading")
+                ? "grading"
+                : currentURL.includes("attendence")
+                ? "attendance"
+                : "Nill",
+              type: "alert",
+              data: attendanceRecord,
+              prevData: attendanceDocSnap.data()[selectedDate],
+            })
+            .then(async (response) => {
+              console.log(response.data);
+              if (response.data.status) {
+                toast("Attendance uploaded successfully");
+                await setDoc(
+                  attendanceCollectionRef,
+                  {
+                    [selectedDate]: attendanceRecord,
+                  },
+                  { merge: true }
+                );
+                setLoading(false);
+              }
+            })
+            .catch((error) => {
+              console.log(error);
+              toast("Something went wrong");
+              setLoading(false);
+            });
+        } else {
+          console.log("record is first time added");
+          await axios
+            .post(url, {
+              teacherName: loggedInUser.name,
+              action: currentURL.includes("grading")
+                ? "grading"
+                : currentURL.includes("attendence")
+                ? "attendance"
+                : "Nill",
+              type: "log",
+              data: attendanceRecord,
+            })
+            .then(async (response) => {
+              console.log(response.data);
+              if (response.data.status) {
+                try {
+                  await setDoc(
+                    attendanceCollectionRef,
+                    {
+                      [selectedDate]: attendanceRecord,
+                    },
+                    { merge: true }
+                  );
+                  toast("Attendance uploaded successfully");
+                  setLoading(false);
+                } catch (error) {
+                  console.log(err);
+                  toast("Something went wrong");
+                  setLoading(false);
+                }
+              }
+            })
+            .catch((error) => {
+              console.log(error);
+              toast("Something went wrong");
+              setLoading(false);
+            });
+        }
+      } else {
+        console.log("record is first time added when no record exists in db");
+        await axios
+          .post(url, {
+            teacherName: loggedInUser.name,
+            action: currentURL.includes("grading")
+              ? "grading"
+              : currentURL.includes("attendence")
+              ? "attendance"
+              : "Nill",
+            type: "log",
+            data: attendanceRecord,
+          })
+          .then(async (response) => {
+            console.log(response.data);
+            if (response.data.status) {
+              try {
+                await setDoc(
+                  attendanceCollectionRef,
+                  {
+                    [selectedDate]: attendanceRecord,
+                  },
+                  { merge: true }
+                );
+                toast("Attendance uploaded successfully");
+                setLoading(false);
+              } catch (error) {
+                console.log(err);
+                toast("Something went wrong");
+                setLoading(false);
+              }
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+            toast("Something went wrong");
+            setLoading(false);
+          });
+      }
     } catch (error) {
       console.error("Error saving attendance:", error);
-      toast.error("Failed to save attendance");
-    } finally {
       setLoading(false);
     }
   };
 
+  useEffect(() => {
+    console.log(attendanceData);
+  }, [attendanceData]);
+
   return (
     <div className="attendance-container">
       <Banner />
-      <h3>Course ID: {id}</h3>
 
+      <h3>Course ID: {id}</h3>
       <div className="attendance-content">
         <h2>Attendance Table</h2>
-
         <div className="date-picker">
-          <label htmlFor="date">Select Date:</label>
+          <label htmlFor="date">Select Date: </label>
           <input
             type="date"
             id="date"
@@ -140,7 +267,6 @@ const Attendance = () => {
             onChange={handleDateChange}
           />
         </div>
-
         <table className="attendance-table">
           <thead>
             <tr>
@@ -151,27 +277,40 @@ const Attendance = () => {
             </tr>
           </thead>
           <tbody>
-            {attendanceData.map((student, index) => (
-              <tr key={student.rollNo}>
-                <td>{index + 1}</td>
-                <td>{student.rollNo}</td>
-                <td>{student.name}</td>
-                <td>
-                  <input
-                    type="checkbox"
-                    checked={student.isPresent}
-                    onChange={() => toggleAttendance(student.rollNo)}
-                  />
-                </td>
-              </tr>
-            ))}
+            {students &&
+              students.length > 0 &&
+              students.map((student, index) => (
+                <tr key={student.rollNo}>
+                  <td className="serial-number">{index + 1}</td>
+                  <td className="roll-number">{student.rollNo}</td>
+                  <td className="student-name">{student.name}</td>
+                  <td className="checkbox">
+                    <input
+                      type="checkbox"
+                      checked={
+                        (attendanceData &&
+                          attendanceData.find(
+                            (data) => data.rollNo === student.rollNo
+                          )?.isPresent) ||
+                        false
+                      }
+                      onChange={() => handleAttendanceChange(student.rollNo)}
+                    />
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
-
-        <button onClick={saveAttendance} disabled={loading}>
-          {loading ? "Saving..." : "Save Attendance"}
+        <button
+          className="save-button"
+          onClick={handleSaveAttendance}
+          disabled={loading ? true : false}
+        >
+          {loading ? "Loading..." : "Save Attendance"}
         </button>
-        <button onClick={() => window.history.back()}>Back</button>
+        <button onClick={handleBack} className="back-button">
+          Back
+        </button>
       </div>
     </div>
   );
