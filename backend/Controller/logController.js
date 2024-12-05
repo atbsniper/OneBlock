@@ -15,14 +15,15 @@ const {
 const { initializeApp } = require("firebase/app");
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCFKckBRbm7nNyHlGIyCecxNw0xlXfJbtU",
-  authDomain: "oneblock-73d43.firebaseapp.com",
-  projectId: "oneblock-73d43",
-  storageBucket: "oneblock-73d43.appspot.com",
-  messagingSenderId: "171679226330",
-  appId: "1:171679226330:web:d0641694617f123e1648e3",
-  measurementId: "G-EQ4VRP8896"
+  apiKey: "AIzaSyCMyxy0sY96aKQSwpa-3tGH_NtxAF4oK5Q",
+  authDomain: "logviewer-966bc.firebaseapp.com",
+  projectId: "logviewer-966bc",
+  storageBucket: "logviewer-966bc.appspot.com",
+  messagingSenderId: "179279904966",
+  appId: "1:179279904966:web:80ee1fe727d208264157c7",
+  measurementId: "G-122MQKK30H",
 };
+
 
 const app = initializeApp(firebaseConfig);
 
