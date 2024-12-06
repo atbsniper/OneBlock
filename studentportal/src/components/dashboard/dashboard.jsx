@@ -16,6 +16,10 @@ const Dashboard = () => {
     setLoggedInUser(JSON.parse(localStorage.getItem("loggedInUser")));
   }, []);
 
+  useEffect(() => {
+    console.log(loggedInUser);
+  }, [loggedInUser]);
+
   const handleLogout = () => {
     setLoggedInUser(null);
     localStorage.removeItem("loggedInUser");

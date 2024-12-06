@@ -95,33 +95,53 @@
 
 /* Individual header styling */
 .report-table th:nth-child(1), .report-table td:nth-child(1) {
+    font-size: 18px;
+    padding: 12px;
     width: 50px;
 }
 .report-table th:nth-child(2), .report-table td:nth-child(2) {
+    font-size: 18px;
+    padding: 12px;
     width: 170px;
 }
 .report-table th:nth-child(3), .report-table td:nth-child(3) {
+    font-size: 18px;
+    padding: 12px;
     width: 150px;
 }
 .report-table th:nth-child(4), .report-table td:nth-child(4) {
+    font-size: 18px;
+    padding: 12px;
     width: 100px;
 }
 .report-table th:nth-child(5), .report-table td:nth-child(5) {
+    font-size: 18px;
+    padding: 12px;
     width: 180px;
 }
 .report-table th:nth-child(6), .report-table td:nth-child(6) {
+    font-size: 18px;
+    padding: 12px;
     width: 130px;
 }
 .report-table th:nth-child(7), .report-table td:nth-child(7) {
+    font-size: 18px;
+    padding: 12px;
     width: 210px;
 }
 .report-table th:nth-child(8), .report-table td:nth-child(8) {
+    font-size: 18px;
+    padding: 12px;
     width: 170px;
 }
 .report-table th:nth-child(9), .report-table td:nth-child(9) {
+    font-size: 18px;
+    padding: 12px;
     width: 210px;
 }
 .report-table th:nth-child(10), .report-table td:nth-child(10) {
+    font-size: 18px;
+    padding: 12px;
     width: 240px;
 }
 

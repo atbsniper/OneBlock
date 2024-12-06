@@ -1,4 +1,3 @@
-// Contract as contract.sol in contract folder.
 const logGard = require("../Model/logModel");
 const { Web3 } = require("web3");
 const {
@@ -24,46 +23,33 @@ const firebaseConfig = {
   measurementId: "G-122MQKK30H",
 };
 
-
 const app = initializeApp(firebaseConfig);
 
 const db = getFirestore(app);
-
 const getStudents = async () => {
-  try {
-    let students = [];
-    const querySnapshot = await getDocs(collection(db, "students"));
-    querySnapshot.forEach((doc) => {
-      students.push(doc.data());
-    });
-    return students;
-  } catch (error) {
-    console.error("Error fetching students: ", error.message);
-    throw new Error("Unable to fetch students");
-  }
+  let students = [];
+  const querySnapshot = await getDocs(collection(db, "students"));
+  querySnapshot.forEach((doc) => {
+    students.push(doc.data());
+  });
+  return students;
 };
 
 // Fetches all logs from the smart contract
 exports.getLog = async (req, res, next) => {
-  try {
-    var data = await logGard.methods.getLogs().call();
-    const transformedData = data.map((obj) => ({
-      tokenId: Number(obj.tokenId),
-      uri: obj.uri,
-    }));
+  var data = await logGard.methods.getLogs().call();
+  const transformedData = data.map((obj) => ({
+    tokenId: Number(obj.tokenId),
+    uri: obj.uri, 
+  }));
 
-    console.log(transformedData);
+  console.log(transformedData);
 
-    res.status(200).json({
-      status: "success",
-      logs: transformedData,
-    });
-  } catch (error) {
-    console.error("Error fetching logs: ", error.message);
-    res.status(500).json({ status: "error", message: "Failed to fetch logs" });
-  }
+  res.status(200).json({
+    status: "success",
+    logs: transformedData,
+  });
 };
-
 // uploads new logs to the smart contract 
 exports.uploadLogs = async (req, res, next) => {
   const { action, teacherName, type, data, prevData } = req.body;
@@ -74,6 +60,7 @@ exports.uploadLogs = async (req, res, next) => {
   const privateKey = process.env.VITE_SIGNER_PRIVATE_KEY;
   const PublicKey = process.env.VITE_ADMIN_ADDRESS;
   const logGardContractAddress = process.env.CNTRACTADDRESS;
+
  
   const currentTime = new Date();
   const date = currentTime.toISOString().slice(0, 10);
@@ -85,7 +72,6 @@ exports.uploadLogs = async (req, res, next) => {
 
   const ipAddress = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
   const userAgent = req.headers["user-agent"];
-
   // Function to detect browser
   function detectBrowser(userAgent) {
     if (/edg/i.test(userAgent)) {
@@ -117,8 +103,8 @@ exports.uploadLogs = async (req, res, next) => {
     teacherName: teacherName,
     action: action,
     type: type,
-    data: JSON.stringify(data || {}),
-    prevData: JSON.stringify(prevData || {}),
+    data: JSON.stringify(data),
+    prevData: JSON.stringify(prevData),
   };
 
   const tx = {

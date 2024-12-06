@@ -9,4 +9,3 @@ router.route("/getLogs").get(logController.getLog);
 router.route("/uploadLogs").post(logController.uploadLogs);
 
 module.exports = router;
-
