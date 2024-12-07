@@ -1,31 +1,41 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import "./asidebar.css";
 import { Link, useNavigate } from "react-router-dom";
-import "./asidebar.css"; 
 
-const AsideBar = () => {
+function AsideBar() {
   const navigate = useNavigate();
+  const [isSidebarVisible, setIsSidebarVisible] = useState(false);
 
   const handleLogOut = () => {
-    // Remove user log from local storage
     localStorage.removeItem("loggedInUserLog");
-    // Redirect to the homepage
     navigate("/");
   };
 
+  const toggleSidebar = () => {
+    setIsSidebarVisible((prev) => !prev);
+  };
+
   useEffect(() => {
-    // Check logged-in user from local storage
-    const loggedInUser = localStorage.getItem("loggedInUserLog");
-    console.log(loggedInUser);
-    // Redirect to homepage if the user is not an admin
-    if (loggedInUser !== "admin") {
+    const test = localStorage.getItem("loggedInUserLog");
+    if (test !== "admin") {
       navigate("/");
     }
-  }, [navigate]); // Dependency array with navigate to prevent unnecessary re-renders
+  }, [navigate]);
 
   return (
-    <aside className="main-aside-wrapp">
-      <h1 className="mt-3 text-center text-bold">One Block</h1>
-      <nav>
+    <div>
+      {/* Sidebar Toggle Button */}
+      <button
+        className={`sidebar-toggle ${isSidebarVisible ? "active" : ""}`}
+        onClick={toggleSidebar}
+        aria-label={isSidebarVisible ? "Close Sidebar" : "Open Sidebar"}
+      >
+        {isSidebarVisible ? "✕" : "☰"}
+      </button>
+
+      {/* Sidebar */}
+      <div className={`main-aside-wrapp ${isSidebarVisible ? "active" : ""}`}>
+        <h1 className="mt-3 text-center text-bold">ONEBLOCK</h1>
         <ul>
           <li>
             <Link to="/dashboard">Dashboard</Link>
@@ -37,14 +47,14 @@ const AsideBar = () => {
             <Link to="/report">Log Viewer</Link>
           </li>
         </ul>
-      </nav>
-      <div className="logoutwrapp">
-        <button className="btn" onClick={handleLogOut}>
-          Log Out
-        </button>
+        <div className="logoutwrapp">
+          <button className="btn" onClick={handleLogOut}>
+            Log Out
+          </button>
+        </div>
       </div>
-    </aside>
+    </div>
   );
-};
+}
 
 export default AsideBar;

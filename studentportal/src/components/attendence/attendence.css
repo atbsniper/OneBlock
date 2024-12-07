@@ -1,71 +1,70 @@
 .attendance-container {
-    padding: 20px;
-    font-family: Arial, sans-serif;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .attendance-content {
-    width: 80%; 
-    margin-top: 10px;
-  }
-  
-  .date-picker {
-    margin-bottom: 20px;
-    display: flex;
-    justify-content: center;
-  }
-  
-  .date-picker label {
-    margin-right: 10px;
-  }
-  
-  .attendance-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-  }
-  
-  .attendance-table th,
-  .attendance-table td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: center;
-    color: rgb(0, 0, 0);
-    background-color: #ffffff; /* Background color for table cells */
-  }
-  
-  .attendance-table th {
-    background-color: #1e354ed3; /* Background color for table headers */
-    color: white;
-  }
-  
-  .attendance-table td.serial-number {
-    width: 50px; /* Adjust the width as needed */
-  }
-  .attendance-table td.checkbox {
-    text-align: center; /* Center align the checkbox */
-  }
-  
-  .attendance-table td.roll-number {
-    width: 150px; /* Adjust the width as needed */
-  }
-  
-  .attendance-table td.student-name {
-    width: 200px; /* Adjust the width as needed */
-  }
-  .attendance-table td.n
-  .save-button {
-    padding: 10px 20px;
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .save-button:hover {
-    background-color: #218838;
-  }
-  
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.attendance-content {
+  width: 80%; 
+  margin-top: 10px;
+}
+
+.date-picker {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.date-picker label {
+  margin-right: 10px;
+}
+
+.attendance-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.attendance-table th,
+.attendance-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+  color: rgb(0, 0, 0);
+  background-color: #ffffff; /* Background color for table cells */
+}
+
+.attendance-table th {
+  background-color: #1e354ed3; /* Background color for table headers */
+  color: white;
+}
+
+.attendance-table td.serial-number {
+  width: 50px; /* Adjust the width as needed */
+}
+.attendance-table td.checkbox {
+  text-align: center; /* Center align the checkbox */
+}
+
+.attendance-table td.roll-number {
+  width: 150px; /* Adjust the width as needed */
+}
+
+.attendance-table td.student-name {
+  width: 200px; /* Adjust the width as needed */
+}
+.attendance-table td.n
+.save-button {
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.save-button:hover {
+  background-color: #218838;
+}

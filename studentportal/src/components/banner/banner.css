@@ -30,7 +30,7 @@
 .university-logo {
   width: 90px; /* Reduced logo size */
   height: auto;
-  margin-right: 15px;
+  margin-right: 20px;
   filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.4));
   transition: transform 0.5s ease, filter 0.5s ease;
 }

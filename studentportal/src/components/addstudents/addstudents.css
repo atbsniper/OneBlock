@@ -1,50 +1,116 @@
-/* Scoped container for the Addstudents component */
+/* Container styling */
 .add-students-container {
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f5f5f5;
-    border-radius: 8px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    font-family: Arial, sans-serif;
+  max-width: 450px; /* Increased width for better usability */
+  margin: 30px auto; /* Added top margin for spacing */
+  padding: 25px;
+  background-color: #e3f6f5; /* Brightened background color */
+  border-radius: 12px; /* Rounded corners for a modern look */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Increased shadow for a prominent effect */
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; /* More modern font */
+}
+
+/* Header styling */
+.add-students-container h1 {
+  font-size: 2em;
+  color: #2c3e50; /* Slightly darker and richer color */
+  text-align: center;
+  margin-bottom: 25px;
+  font-weight: 600; /* Slightly bolder text */
+}
+
+/* Input fields styling */
+.add-students-container input[type="text"] {
+  width: 100%; /* Full width for better alignment */
+  padding: 12px;
+  margin: 12px 0;
+  font-size: 1em;
+  border: 1px solid #ccc; /* Softer border color */
+  border-radius: 6px; /* Slightly rounded input corners */
+  box-sizing: border-box; /* Ensures padding doesn't affect width */
+  transition: all 0.3s ease; /* Smooth transition for focus effect */
+}
+
+.add-students-container input[type="text"]:focus {
+  border-color: #1e90ff; /* Brighter focus color */
+  outline: none;
+  box-shadow: 0 0 8px rgba(30, 144, 255, 0.6); /* Enhanced focus shadow */
+}
+
+/* Button styling */
+.add-students-container button {
+  width: 100%;
+  padding: 15px; /* Increased padding for better clickability */
+  font-size: 1.1em; /* Slightly larger text */
+  color: #fff;
+  background-color: #1e90ff; /* Richer blue for the button */
+  border: none;
+  border-radius: 6px; /* Rounded button corners */
+  cursor: pointer;
+  margin-top: 20px;
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth hover and press effects */
+}
+
+.add-students-container button:hover {
+  background-color: #006bb3; /* Darker shade on hover */
+}
+
+.add-students-container button:active {
+  transform: scale(0.98); /* Slightly smaller scale on click */
+}
+
+/* Mobile responsiveness */
+@media (max-width: 480px) {
+  .add-students-container {
+      padding: 20px;
+      max-width: 90%; /* Adjust width for smaller screens */
   }
-  
+
   .add-students-container h1 {
-    font-size: 1.8em;
-    color: #333;
-    text-align: center;
-    margin-bottom: 20px;
+      font-size: 1.6em; /* Smaller font size for headers */
   }
-  
+
   .add-students-container input[type="text"] {
-    width: 90%;
-    padding: 10px;
-    margin: 10px 0;
-    font-size: 1em;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+      font-size: 0.9em; /* Adjust font size for inputs */
   }
-  
-  .add-students-container input[type="text"]:focus {
-    border-color: #007bff;
-    outline: none;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-  }
-  
+
   .add-students-container button {
-    width: 100%;
-    padding: 12px;
-    font-size: 1em;
-    color: #fff;
-    background-color: #007bff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-top: 15px;
-    transition: background-color 0.3s ease;
+      font-size: 1em; /* Adjust button font size */
   }
-  
-  .add-students-container button:hover {
-    background-color: #0056b3;
-  }
-  
+}
+
+.students-list table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #070606;
+  margin-top: 20px;
+}
+
+.students-list th,
+.students-list td {
+  border: 1px solid #fbfafa;
+  padding: 8px;
+  text-align: left;
+}
+
+.students-list th {
+  background-color: #080707;
+  font-weight: bold;
+}
+
+.students-list button {
+  background-color: #dc3545;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.students-list button:hover {
+  background-color: #c82333;
+}
+
+.students-list h2{
+  color: black;
+  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
+}
