@@ -29,6 +29,8 @@ function Alerts() {
         const response = await axios.get(
           `${import.meta.env.VITE_BASE_URL}/LogGard/getLogs`
         );
+  
+        // Parse and process logs
         const parsedData = response.data.logs.map((item) => {
           const parsedItem = JSON.parse(item.uri);
           let parsedData1;
@@ -51,12 +53,18 @@ function Alerts() {
             tokenId: item.tokenId,
           };
         });
-        setTableData(parsedData);
+  
+        // Sort logs by timestamp and limit to the most recent 20
+        const limitedData = parsedData
+          .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
+          .slice(0, 20);
+  
+        setTableData(limitedData);
       } catch (error) {
         console.error("Error fetching data", error);
       }
     };
-
+  
     fetchData();
   }, []);
 

@@ -208,7 +208,6 @@ function Dashboard() {
               <ul className="dropdown-menu">
                 <li><button className="dropdown-item" onClick={() => setViewMode("daily")}>Daily</button></li>
                 <li><button className="dropdown-item" onClick={() => setViewMode("weekly")}>Weekly</button></li>
-                <li><button className="dropdown-item" onClick={() => setViewMode("monthly")}>Monthly</button></li>
               </ul>
             </div>
           </div>
@@ -250,51 +249,51 @@ function Dashboard() {
               </tr>
             </thead>
             <tbody>
-              {tableData &&
-                tableData.length > 0 &&
-                tableData.slice().reverse().slice(showAllLogs ? 0 : 0, showAllLogs ? tableData.length : 5).map((item, i) => {
-                  const handleDownload = () => {
-                    if (item.data) {
-                      const data = JSON.stringify(item.data, null, 2);
-                      const blob = new Blob([data], { type: "text/plain" });
-                      const url = URL.createObjectURL(blob);
-                      const a = document.createElement("a");
-                      a.href = url;
-                      a.download = "test.log";
-                      document.body.appendChild(a);
-                      a.click();
-                      document.body.removeChild(a);
-                      URL.revokeObjectURL(url);
-                    }
-                  };
+  {tableData &&
+    tableData.length > 0 &&
+    tableData.slice().reverse().slice(0, 20).map((item, i) => {
+      const handleDownload = () => {
+        if (item.data) {
+          const data = JSON.stringify(item.data, null, 2);
+          const blob = new Blob([data], { type: "text/plain" });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = "test.log";
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+        }
+      };
 
-                  return (
-                    <tr key={i}>
-                      
-                      <td>{item.timestamp}</td>
-                      <td>{item.ipAddress}</td>
-                      <td>
-                        {item.data ? (
-                          <button className="btn btn-success" onClick={handleDownload}>
-                            log
-                          </button>
-                        ) : (
-                          "-"
-                        )}
-                      </td>
-                      <td>{item.detectedBrowser}</td>
-                      <td>{item.teacherName}</td>
-                      <td>{item.action}</td>
-                      <td>{item?.type ? item.type : "-"}</td>
-                      <td className="transaction-hash">
-                        {transactionHash && transactionHash[item.tokenId] === undefined
-                          ? "-"
-                          : transactionHash && transactionHash[item.tokenId]}
-                      </td>
-                    </tr>
-                  );
-                })}
-            </tbody>
+      return (
+        <tr key={i}>
+          <td>{item.timestamp}</td>
+          <td>{item.ipAddress}</td>
+          <td>
+            {item.data ? (
+              <button className="btn btn-success" onClick={handleDownload}>
+                log
+              </button>
+            ) : (
+              "-"
+            )}
+          </td>
+          <td>{item.detectedBrowser}</td>
+          <td>{item.teacherName}</td>
+          <td>{item.action}</td>
+          <td>{item?.type ? item.type : "-"}</td>
+          <td className="transaction-hash">
+            {transactionHash && transactionHash[item.tokenId] === undefined
+              ? "-"
+              : transactionHash && transactionHash[item.tokenId]}
+          </td>
+        </tr>
+      );
+    })}
+</tbody>
+
           </table>
           {!showAllLogs && tableData && tableData.length > 5 && (
             <button className="btn btn-success" onClick={() => setShowAllLogs(true)}>
