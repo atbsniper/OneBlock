@@ -240,15 +240,24 @@ function Alerts() {
                       {transactionHash && transactionHash[item.tokenId] == undefined
                         ? "-"
                         : transactionHash && transactionHash[item.tokenId]}
-                        </span>
-                      </p>
-                    </div>
-                  );
-                })}
-            </div>
-          </div>
+                    </span>
+                  </p>
+                </div>
+              );
+            })}
         </div>
-      );
-    }
+    {/*
+{alerts && alerts.length > alertsPerPage && (
+  <nav className="pagination-nav">
+    <ul className="pagination">
+      {renderPagination()}
+    </ul>
+  </nav>
+)}
+*/}
+      </div>
+    </div>
+  );
+}
 
 export default Alerts;
