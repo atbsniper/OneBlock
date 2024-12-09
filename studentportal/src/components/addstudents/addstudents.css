@@ -110,7 +110,8 @@
   background-color: #c82333;
 }
 
-.students-list h2{
+.students-list h2,
+.students-list p{
   color: black;
   font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
 }

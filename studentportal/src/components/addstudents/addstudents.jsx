@@ -91,7 +91,7 @@ function Addstudents() {
 
       {/* List of Students */}
       <div className="students-list">
-        <h2>Students</h2>
+        <h2>Current Students</h2>
         {students.length === 0 ? (
           <p>No students added yet.</p>
         ) : (
