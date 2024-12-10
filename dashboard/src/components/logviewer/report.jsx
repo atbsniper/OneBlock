@@ -29,8 +29,6 @@ function Alerts() {
         const response = await axios.get(
           `${import.meta.env.VITE_BASE_URL}/LogGard/getLogs`
         );
-  
-        // Parse and process logs
         const parsedData = response.data.logs.map((item) => {
           const parsedItem = JSON.parse(item.uri);
           let parsedData1;
@@ -53,18 +51,12 @@ function Alerts() {
             tokenId: item.tokenId,
           };
         });
-  
-        // Sort logs by timestamp and limit to the most recent 20
-        const limitedData = parsedData
-          .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
-          .slice(0, 20);
-  
-        setTableData(limitedData);
+        setTableData(parsedData);
       } catch (error) {
         console.error("Error fetching data", error);
       }
     };
-  
+
     fetchData();
   }, []);
 
@@ -143,7 +135,7 @@ function Alerts() {
       );
     }
 
-    setFilteredAlerts(filtered);
+    setFilteredAlerts(alerts.slice(-25));
   }, [alerts, teacherFilter, typeFilter]);
 
   useEffect(() => {
@@ -337,7 +329,7 @@ function Alerts() {
             <div className="report-modal-footer">
               <p className="report-modal-bold">1: The report is based on the instructor action.</p>
               <p className="report-modal-bold">2: For Feedback: PH No. 0523-2342343</p>
-              <p className="report-modal-bold">3: Email: oneblock@gmail.com</p>
+              <p className="report-modal-bold">3: Email: logguard@gmail.com</p>
             </div>
           </div>
           <ReactToPrint
@@ -389,7 +381,7 @@ function Alerts() {
             <div className="report-modal-footer">
               <p className="report-modal-bold">1: The report is based on the instructor action.</p>
               <p className="report-modal-bold">2: For Feedback: PH No. 0523-2342343</p>
-              <p className="report-modal-bold">3: Email: oneblock@gmail.com</p>
+              <p className="report-modal-bold">3: Email: logguard@gmail.com</p>
             </div>
           </div>
           <ReactToPrint
@@ -627,7 +619,7 @@ function Alerts() {
                                       className="report-btn report-btn-primary"
                                       onClick={() => handleViewGradeData(item)}
                                     >
-                                      View Grade
+                                      View Grade Data
                                     </button>
                                   )}
                                   {item.action === "attendance" && (
@@ -635,7 +627,7 @@ function Alerts() {
                                       className="report-btn report-btn-primary"
                                       onClick={() => handleViewAttendanceData(item)}
                                     >
-                                      View Attendance
+                                      View Attendance Data
                                     </button>
                                   )}
                                 </div>
