@@ -52,7 +52,7 @@
     padding: 5px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    background-color: white; /* Set input background to white */
+    background-color: white; 
     width: 250px;
 }
 
@@ -63,11 +63,11 @@
 }
 
 .report-header h3{
-    font-size: 34px;        /* Font size of the heading */
-    font-weight: bold;      /* Make the font bold */
-    color: #333;            /* Text color */
-    margin-bottom: 0px;    /* Space below the heading */
-    text-align: left;     /* Center the heading text */
+    font-size: 34px; 
+    font-weight: bold;
+    color: #333; 
+    margin-bottom: 0px; 
+    text-align: left;   
     margin-left: 30px;
 }
 .report-table-wrapper {
@@ -92,57 +92,57 @@
     padding: 8px;
     text-align: left;
     word-wrap: break-word;
-    background-color: white; /* Set cell background to white */
+    background-color: white; 
 }
 
 /* Individual header styling */
 .report-table th:nth-child(1), .report-table td:nth-child(1) {
-    font-size: 18px; /* Change size as needed */
+    font-size: 18px; 
     padding: 12px;
     width: 50px;
 }
 .report-table th:nth-child(2), .report-table td:nth-child(2) {
-    font-size: 18px; /* Change size as needed */
+    font-size: 18px; 
     padding: 12px;
     width: 170px;
 }
 .report-table th:nth-child(3), .report-table td:nth-child(3) {
-    font-size: 18px; /* Change size as needed */
+    font-size: 18px;
     padding: 12px;
     width: 150px;
 }
 .report-table th:nth-child(4), .report-table td:nth-child(4) {
-    font-size: 18px; /* Change size as needed */
+    font-size: 18px; 
     padding: 12px;
     width: 100px;
 }
 .report-table th:nth-child(5), .report-table td:nth-child(5) {
-    font-size: 18px; /* Change size as needed */
+    font-size: 18px; 
     padding: 12px;
     width: 180px;
 }
 .report-table th:nth-child(6), .report-table td:nth-child(6) {
-    font-size: 18px; /* Change size as needed */
+    font-size: 18px; 
     padding: 12px;
     width: 130px;
 }
 .report-table th:nth-child(7), .report-table td:nth-child(7) {
-    font-size: 18px; /* Change size as needed */
+    font-size: 18px;
     padding: 12px;
     width: 210px;
 }
 .report-table th:nth-child(8), .report-table td:nth-child(8) {
-    font-size: 18px; /* Change size as needed */
+    font-size: 18px; 
     padding: 12px;
     width: 170px;
 }
 .report-table th:nth-child(9), .report-table td:nth-child(9) {
-    font-size: 18px; /* Change size as needed */
+    font-size: 18px; 
     padding: 12px;
     width: 210px;
 }
 .report-table th:nth-child(10), .report-table td:nth-child(10) {
-    font-size: 18px; /* Change size as needed */
+    font-size: 18px; 
     padding: 12px;
     width: 240px;
 }

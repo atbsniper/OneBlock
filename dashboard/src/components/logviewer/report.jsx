@@ -495,7 +495,7 @@ function Alerts() {
                     {filteredAlerts &&
                       filteredAlerts
                         .slice()
-                        .reverse() // Display in reverse order
+                        .reverse() 
                         .map((item, i) => {
                           const handleDownload = () => {
                             if (item.data) {
@@ -559,7 +559,7 @@ function Alerts() {
                               item.prevData
                             );
                             if (Object.keys(changedData).length === 0) {
-                              return null; // Skip rendering this row
+                              return null; 
                             }
                           }
   

@@ -18,7 +18,7 @@ body {
   background: #fff;
   border-radius: 8px;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-  width: 1200px; /* Increased width */
+  width: 1200px; 
   overflow: hidden;
 }
 
@@ -27,24 +27,24 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #27374D; /* Same background for both sections */
+  background: #27374D; 
 }
 
 .login-image {
   max-width: 80%;
   max-height: 80%;
-  object-fit: contain; /* Ensures the image is centered and fits well */
+  object-fit: contain; 
 }
 
 .divider {
-  width: 1px; /* Reduced width */
-  background: #ccc; /* Ensure the line is visible */
-  height: 50%; /* Adjust height to reduce the length of the line */
+  width: 1px; 
+  background: #ccc; 
+  height: 50%; 
   margin: auto 0;
 }
 
 .right-section {
-  flex-direction: column; /* Align items vertically */
+  flex-direction: column; 
   padding: 40px;
 }
 
@@ -66,7 +66,7 @@ h2 {
 h2::before {
   content: '';
   position: absolute;
-  left: 0px; /* Adjust this value to align with the input boxes */
+  left: 0px; 
   top: -20px;
   width: 50px;
   height: 3px;
@@ -74,7 +74,7 @@ h2::before {
 }
 
 .input-container {
-  width: 100%; /* Ensure inputs take full width */
+  width: 100%;
   margin: 0px;
   position: relative;
 }

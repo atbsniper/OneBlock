@@ -2,14 +2,14 @@
 .dashboard-main-wrapper {
     display: flex;
     min-height: 100vh;
-    background-color: #f4f4f4; /* Light background color */
+    background-color: #f4f4f4;
   }
   
   /* Sidebar styling */
   .asidebar {
     width: 250px;
-    background-color: #333; /* Dark sidebar */
-    color: #fff; /* White text */
+    background-color: #333; 
+    color: #fff; 
     padding: 20px;
     box-sizing: border-box;
     height: 100vh;
@@ -27,7 +27,7 @@
   }
   
   .asidebar a:hover {
-    background-color: #444; /* Hover effect */
+    background-color: #444;
   }
   
   /* Content area styling */
@@ -40,7 +40,7 @@
   
   /* Wrap for the content after the sidebar */
   .after-content-wrap {
-    margin-top: 60px; /* Adjusted margin for the header if present */
+    margin-top: 60px; 
   }
   
   /* Styling for the Dashboard component */
