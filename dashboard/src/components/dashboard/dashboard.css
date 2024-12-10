@@ -4,7 +4,7 @@ body {
   margin: 0;
   padding: 0;
   display: flex;
-  overflow: hidden; /* Remove scrollbars */
+  overflow: hidden; 
 }
 
 .dashboard-main-component {
@@ -45,69 +45,69 @@ body {
   border-radius: 10px;
   background-color: #ffffff;
   margin-top: 10px;
-  overflow-x: auto; /* Added to handle horizontal overflow */
+  overflow-x: auto; 
 }
 
 .table-wrapper {
   width: 100%;
-  overflow-x: auto; /* Ensures the table fits within the wrapper */
+  overflow-x: auto;
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
-  table-layout: fixed; /* Ensures fixed layout for columns */
+  table-layout: fixed; 
 }
 
 th, td {
   border-bottom: 1px solid #ddd;
-  white-space: nowrap; /* Prevents text from wrapping */
+  white-space: nowrap; 
   overflow: hidden;
-  text-overflow: ellipsis; /* Adds ellipsis for overflowing text */
+  text-overflow: ellipsis; 
 }
 
 th {
-  padding: 15px 10px; /* Adjust padding for headers as needed */
+  padding: 15px 10px; 
   background-color: #ffffff;
 }
 
 td {
-  padding: 10px; /* Adjust padding for data cells as needed */
-  max-width: 200px; /* Adjust as needed */
+  padding: 10px; 
+  max-width: 200px; 
 }
 
 
 th:nth-child(1), td:nth-child(2) {
-  width: 170px; /* Adjust width for 'type' column */
+  width: 170px; 
 }
 
 th:nth-child(2), td:nth-child(3) {
-  width: 150px; /* Adjust width for 'type' column */
+  width: 150px;
   
 }
 
 th:nth-child(3), td:nth-child(4) {
-  width: 130px; /* Adjust width for 'type' column */
+  width: 130px; 
 }
 
 th:nth-child(4), td:nth-child(5) {
-  width: 170px; /* Adjust width for 'type' column */
+  width: 170px; 
 }
 
 th:nth-child(5), td:nth-child(6) {
-  width: 150px; /* Adjust width for 'type' column */
+  width: 150px; 
 }
 
 th:nth-child(6), td:nth-child(7) {
-  width: 120px; /* Adjust width for 'type' column */
+  width: 120px; 
 }
 
 th:nth-child(7), td:nth-child(8) {
-  width: 100px; /* Adjust width for 'type' column */
+  width: 100px; 
 }
 
 th:nth-child(8), td:nth-child(9) {
-  width: 300px; /* Adjust width for 'Transaction Hash' column */
+  width: 300px; 
 }
 
 .tables-starts h3 {
@@ -117,14 +117,14 @@ th:nth-child(8), td:nth-child(9) {
 }
 
 .main-aside-wrapp {
-  width: 250px; /* Fixed width for the sidebar */
+  width: 250px; 
   background: black;
   color: white;
-  height: 100vh; /* Full height */
-  position: fixed; /* Fixed position */
+  height: 100vh; 
+  position: fixed; 
   top: 0;
   left: 0;
-  border-radius: 0; /* Remove border radius */
+  border-radius: 0; 
   padding: 20px;
 }
 
@@ -195,6 +195,6 @@ button.btn:hover {
 
 .view-mode-dropdown {
   position: relative;
-  top: 50px; /* Adjust as needed */
-  right: 0px; /* Adjust as needed */
+  top: 50px; 
+  right: 0px; 
 }

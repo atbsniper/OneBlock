@@ -19,12 +19,12 @@
     font-size: 50px;
     font-weight: bold;
     font-family: monospace;
-    flex: 1; /* Allows the name to take up available space */
+    flex: 1; 
   }
   
   .university-logo {
     width: 150px;
     height: auto;
-    margin-left: 20px; /* Add margin to separate from text */
+    margin-left: 20px;
   }
   

@@ -1,7 +1,7 @@
 // src/components/banner/Banner.jsx
 import React from "react";
 import airUniversityLogo from "./FASTLogo.png";
-import "./banner.css"; // Ensure the correct path to CSS
+import "./banner.css";
 
 const Banner = () => {
   return (
