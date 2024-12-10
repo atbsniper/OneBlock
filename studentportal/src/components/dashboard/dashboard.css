@@ -1,5 +1,5 @@
 .dashboard {
-  max-width: 1200px; /* Broad layout */
+  max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
   font-family: Arial, sans-serif;
@@ -16,13 +16,13 @@
 
 .course-boxes {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive grid layout */
-  gap: 30px; /* Ensures space between boxes */
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
   margin-top: 20px;
 }
 
 .course-box {
-  height: 300px; /* Larger cards for classrooms */
+  height: 300px;
   padding: 20px;
   font-size: large;
   border: 1px solid transparent;
@@ -59,7 +59,7 @@
 }
 
 .box {
-  width: 120px; /* Smaller boxes for grading and attendance */
+  width: 120px;
   height: 120px;
   padding: 15px;
   font-size: medium;

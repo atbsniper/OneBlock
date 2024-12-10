@@ -48,7 +48,7 @@ const Attendance = () => {
   };
 
   const handleBack = () => {
-    window.history.back(); // Navigates back to the previous page in history
+    window.history.back();
   };
 
   // Fetches attendance data

@@ -3,14 +3,14 @@ import { db } from "../../firebase/firebaseConfig";
 import { addDoc, collection } from "firebase/firestore";
 import { toast } from "react-toastify";
 import { v4 as uuidv4 } from "uuid";
-import "./addteacher.css"; // Import the CSS file
+import "./addteacher.css";
 
 function AddTeacher() {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [courses, setCourses] = useState([]);
   const [course, setCourse] = useState("");
-  const [courseID, setCourseID] = useState(""); // State for course ID input
+  const [courseID, setCourseID] = useState(""); 
 
   const addTeacherFirebase = async () => {
     if (name === "" || password === "" || courses.length === 0) {
@@ -40,8 +40,8 @@ function AddTeacher() {
     // Use user-provided courseID or generate one
     const newCourseID = courseID || uuidv4();
     setCourses([...courses, { courseName: course, courseID: newCourseID }]);
-    setCourse(""); // Clear course input
-    setCourseID(""); // Clear course ID input
+    setCourse(""); 
+    setCourseID(""); 
   };
 
   useEffect(() => {

@@ -33,27 +33,27 @@
   padding: 8px;
   text-align: center;
   color: rgb(0, 0, 0);
-  background-color: #ffffff; /* Background color for table cells */
+  background-color: #ffffff; 
 }
 
 .attendance-table th {
-  background-color: #1e354ed3; /* Background color for table headers */
+  background-color: #1e354ed3; 
   color: white;
 }
 
 .attendance-table td.serial-number {
-  width: 50px; /* Adjust the width as needed */
+  width: 50px; 
 }
 .attendance-table td.checkbox {
-  text-align: center; /* Center align the checkbox */
+  text-align: center; 
 }
 
 .attendance-table td.roll-number {
-  width: 150px; /* Adjust the width as needed */
+  width: 150px; 
 }
 
 .attendance-table td.student-name {
-  width: 200px; /* Adjust the width as needed */
+  width: 200px;
 }
 .attendance-table td.n
 .save-button {

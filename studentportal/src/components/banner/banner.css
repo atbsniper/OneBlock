@@ -1,9 +1,9 @@
 /* banner.css */
 .university-banner {
-  background: linear-gradient(135deg, #1e354e, #4e79a8); /* Gradient background */
+  background: linear-gradient(135deg, #1e354e, #4e79a8); 
   color: #fafafa;
-  padding: 10px 20px; /* Reduced padding */
-  height: 70px; /* Reduced height */
+  padding: 10px 20px; 
+  height: 70px;
   width: 100%;
   position: fixed;
   top: 0;
@@ -13,22 +13,22 @@
   align-items: center;
   justify-content: space-between;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-  border-bottom: 2px solid #1a3d5d; /* Adjusted border size */
+  border-bottom: 2px solid #1a3d5d;
   transition: background 0.5s ease-in-out;
 }
 
 .university-name {
-  font-size: 38px; /* Reduced font size */
+  font-size: 38px;
   font-weight: 700;
   font-family: 'Montserrat', sans-serif;
   letter-spacing: 2px;
-  margin-left: 15px; /* Reduced margin */
+  margin-left: 15px; 
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
   animation: glow 3s ease-in-out infinite alternate;
 }
 
 .university-logo {
-  width: 90px; /* Reduced logo size */
+  width: 90px; 
   height: auto;
   margin-right: 20px;
   filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.4));
@@ -36,16 +36,16 @@
 }
 
 .university-logo:hover {
-  transform: rotate(10deg) scale(1.1); /* Slightly smaller hover effect */
+  transform: rotate(10deg) scale(1.1); 
   filter: drop-shadow(2px 4px 12px rgba(0, 0, 0, 0.8));
 }
 
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
   .university-name {
-      font-size: 30px; /* Adjust font size for smaller screens */
+      font-size: 30px; 
   }
   .university-logo {
-      width: 70px; /* Scale down logo on mobile */
+      width: 70px; 
   }
 }
