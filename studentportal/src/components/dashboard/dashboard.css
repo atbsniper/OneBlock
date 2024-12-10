@@ -34,6 +34,7 @@
   align-items: center;
   justify-content: center;
   color: white;
+  font-size: 30px;
   cursor: pointer;
   transition: transform 0.3s, background-color 0.3s;
 }
@@ -48,7 +49,7 @@
   margin-top: 20px;
   font-size: 20px;
   font-weight: bold;
-  color: #333;
+  color: #030000;
 }
 
 .action-boxes {
@@ -72,6 +73,7 @@
   align-items: center;
   justify-content: center;
   color: white;
+  font-size: 24px;
   cursor: pointer;
   transition: transform 0.3s, background-color 0.3s;
 }
