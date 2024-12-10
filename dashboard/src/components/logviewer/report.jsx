@@ -135,7 +135,7 @@ function Alerts() {
       );
     }
 
-    setFilteredAlerts(filtered.slice(-25));
+    setFilteredAlerts(filtered);
   }, [alerts, teacherFilter, typeFilter]);
 
   useEffect(() => {
