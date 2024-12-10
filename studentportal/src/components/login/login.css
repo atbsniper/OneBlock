@@ -50,7 +50,7 @@ body {
   border-radius: 5px;
   background-color: #1e354eb0;
   box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
-  overflow: hidden; /* To ensure input fields don’t exceed the container */
+  overflow: hidden;
 }
 
 .login-page-main h2 {
@@ -69,8 +69,8 @@ body {
 }
 
 .input-container input {
-  width: calc(100% - 40px); /* Subtract space for icon and separator */
-  padding: 10px 10px 10px 40px; /* Extra left padding for icon */
+  width: calc(100% - 40px);
+  padding: 10px 10px 10px 40px; 
   border: 1px solid #cccccc00;
   border-radius: 2px;
   background-color: #c6dbe1ec;
@@ -100,7 +100,7 @@ body {
 .separator {
   position: absolute;
   top: 50%;
-  left: 35px; /* Positioned just after the icon */
+  left: 35px;
   transform: translateY(-50%);
   width: 1px;
   height: 30px;

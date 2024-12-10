@@ -4,15 +4,15 @@ import { db } from "../../firebase/firebaseConfig";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faLock } from "@fortawesome/free-solid-svg-icons";
-import ReCAPTCHA from "react-google-recaptcha"; // Import reCAPTCHA component
+import ReCAPTCHA from "react-google-recaptcha";
 import "./login.css";
-import Banner from "../banner/Banner"; // Import the Banner component
+import Banner from "../banner/Banner";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false); // State for show/hide password
-  const [recaptchaVerified, setRecaptchaVerified] = useState(false); // State for reCAPTCHA verification
+  const [showPassword, setShowPassword] = useState(false); 
+  const [recaptchaVerified, setRecaptchaVerified] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
@@ -32,7 +32,7 @@ const Login = () => {
         querySnapshot.forEach((doc) => {
           const user = doc.data();
           localStorage.setItem("loggedInUser", JSON.stringify(user));
-          navigate("/dashboard"); // Redirect to dashboard page
+          navigate("/dashboard");
         });
       } else {
         setError("Invalid Username or Password");
@@ -44,7 +44,7 @@ const Login = () => {
 
   const onRecaptchaChange = (value) => {
     if (value) {
-      setRecaptchaVerified(true); // Set to true if reCAPTCHA is successfully verified
+      setRecaptchaVerified(true);
     } else {
       setRecaptchaVerified(false);
     }
@@ -75,7 +75,7 @@ const Login = () => {
           <FontAwesomeIcon icon={faLock} className="input-icon" /> {/* Lock icon */}
           <div className="separator"></div> {/* Separator line */}
           <input
-            type={showPassword ? "text" : "password"} // Toggle password visibility
+            type={showPassword ? "text" : "password"} 
             placeholder="Enter Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -86,16 +86,16 @@ const Login = () => {
             type="checkbox"
             id="showPassword"
             checked={showPassword}
-            onChange={() => setShowPassword(!showPassword)} // Toggle show/hide password
+            onChange={() => setShowPassword(!showPassword)}
           />
           <label htmlFor="showPassword">Show Password</label>
         </div>
 
         {/* reCAPTCHA */}
         <ReCAPTCHA
-          sitekey="6Le9NWIqAAAAAAnY4BoXjbtzgowTKPGpdsKYekwC" // Replace with your actual reCAPTCHA site key
+          sitekey="6Le9NWIqAAAAAAnY4BoXjbtzgowTKPGpdsKYekwC"
           onChange={onRecaptchaChange}
-          className="recaptcha-container" // Add a class for CSS styling
+          className="recaptcha-container"
         />
 
         <button onClick={handleLogin}>Login</button>

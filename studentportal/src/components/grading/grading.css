@@ -12,7 +12,7 @@
 }
 
 .grading-table {
-  width: 108%; /* Adjust the width as needed to fit the content */
+  width: 108%; 
   border-collapse: collapse;
   margin-bottom: 20px;
 }
@@ -28,32 +28,32 @@
 }
 
 .grading-table th {
-  background-color: #1e354ed3; /* Background color for table headers */
+  background-color: #1e354ed3; 
   color: white;
 }
 
 .grading-table td.roll-number {
-  width: 150px; /* Adjust the width as needed */
+  width: 150px; 
 }
 
 .grading-table td.student-name {
-  width: 150px; /* Adjust the width as needed */
+  width: 150px; 
 }
 
 .grading-table td input[type="number"] {
-  width: 100%; /* Make inputs take full width of their cells */
+  width: 100%; 
   padding: 7px;
   box-sizing: border-box;
   color: rgb(0, 0, 0);
-  text-align: center; /* Center align the input content */
-  background-color: #ffffff; /* Change background color */
-  border: 1px solid #ffffff; /* Add a border for better visibility */
-  border-radius: 4px; /* Add rounded corners */
+  text-align: center; 
+  background-color: #ffffff; 
+  border: 1px solid #ffffff;
+  border-radius: 4px; 
 }
 
 .grading-table td input[type="number"]:focus {
-  background-color: #e0e0e0; /* Change background color on focus */
-  outline: none; /* Remove the default outline */
+  background-color: #e0e0e0; 
+  outline: none; 
 }
 
 .save-button {
