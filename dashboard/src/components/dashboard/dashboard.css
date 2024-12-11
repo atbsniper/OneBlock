@@ -4,7 +4,7 @@ body {
   margin: 0;
   padding: 0;
   display: flex;
-  overflow: hidden; 
+  overflow: hidden; /* Remove scrollbars */
 }
 
 .dashboard-main-component {
@@ -45,69 +45,69 @@ body {
   border-radius: 10px;
   background-color: #ffffff;
   margin-top: 10px;
-  overflow-x: auto; 
+  overflow-x: auto; /* Added to handle horizontal overflow */
 }
 
 .table-wrapper {
   width: 100%;
-  overflow-x: auto;
+  overflow-x: auto; /* Ensures the table fits within the wrapper */
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
-  table-layout: fixed; 
+  table-layout: fixed; /* Ensures fixed layout for columns */
 }
 
 th, td {
   border-bottom: 1px solid #ddd;
-  white-space: nowrap; 
+  white-space: nowrap; /* Prevents text from wrapping */
   overflow: hidden;
-  text-overflow: ellipsis; 
+  text-overflow: ellipsis; /* Adds ellipsis for overflowing text */
 }
 
 th {
-  padding: 15px 10px; 
+  padding: 15px 10px; /* Adjust padding for headers as needed */
   background-color: #ffffff;
 }
 
 td {
-  padding: 10px; 
-  max-width: 200px; 
+  padding: 10px; /* Adjust padding for data cells as needed */
+  max-width: 200px; /* Adjust as needed */
 }
 
 
 th:nth-child(1), td:nth-child(2) {
-  width: 170px; 
+  width: 170px; /* Adjust width for 'type' column */
 }
 
 th:nth-child(2), td:nth-child(3) {
-  width: 150px;
+  width: 150px; /* Adjust width for 'type' column */
   
 }
 
 th:nth-child(3), td:nth-child(4) {
-  width: 130px; 
+  width: 130px; /* Adjust width for 'type' column */
 }
 
 th:nth-child(4), td:nth-child(5) {
-  width: 170px; 
+  width: 170px; /* Adjust width for 'type' column */
 }
 
 th:nth-child(5), td:nth-child(6) {
-  width: 150px; 
+  width: 150px; /* Adjust width for 'type' column */
 }
 
 th:nth-child(6), td:nth-child(7) {
-  width: 120px; 
+  width: 120px; /* Adjust width for 'type' column */
 }
 
 th:nth-child(7), td:nth-child(8) {
-  width: 100px; 
+  width: 100px; /* Adjust width for 'type' column */
 }
 
 th:nth-child(8), td:nth-child(9) {
-  width: 300px; 
+  width: 300px; /* Adjust width for 'Transaction Hash' column */
 }
 
 .tables-starts h3 {
@@ -117,14 +117,14 @@ th:nth-child(8), td:nth-child(9) {
 }
 
 .main-aside-wrapp {
-  width: 250px; 
+  width: 250px; /* Fixed width for the sidebar */
   background: black;
   color: white;
-  height: 100vh; 
-  position: fixed; 
+  height: 100vh; /* Full height */
+  position: fixed; /* Fixed position */
   top: 0;
   left: 0;
-  border-radius: 0; 
+  border-radius: 0; /* Remove border radius */
   padding: 20px;
 }
 
@@ -195,6 +195,6 @@ button.btn:hover {
 
 .view-mode-dropdown {
   position: relative;
-  top: 50px; 
-  right: 0px; 
+  top: 50px; /* Adjust as needed */
+  right: 0px; /* Adjust as needed */
 }

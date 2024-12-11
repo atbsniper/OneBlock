@@ -17,7 +17,7 @@ function AsideBar() {
 
   useEffect(() => {
     const test = localStorage.getItem("loggedInUserLog");
-    if (test !== "admin") {
+    if (test !== "oneblock") {
       navigate("/");
     }
   }, [navigate]);
