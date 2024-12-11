@@ -93,7 +93,7 @@ const Login = () => {
 
         {/* reCAPTCHA */}
         <ReCAPTCHA
-          sitekey="6Le9NWIqAAAAAAnY4BoXjbtzgowTKPGpdsKYekwC"
+          sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
           onChange={onRecaptchaChange}
           className="recaptcha-container"
         />
