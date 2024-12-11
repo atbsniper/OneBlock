@@ -21,6 +21,7 @@
   .alerts-component .my-3 {
     margin-top: 1rem !important;
     margin-bottom: 1rem !important;
+    color: #fff;
   }
   .transaction-hash {
     word-break: break-all; /* Break words at any character to prevent overflow */

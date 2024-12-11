@@ -6,7 +6,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Courier New', Courier, monospace;
-  background: linear-gradient(to right, #A0C49D, #C4D7B2, #E1ECC8, #A0C49D); 
+  background-image: url('image.webp');
   display: flex;
   justify-content: center;
   align-items: center;
