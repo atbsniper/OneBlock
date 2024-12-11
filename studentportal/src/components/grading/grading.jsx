@@ -4,8 +4,8 @@ import { useParams } from "react-router-dom";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 import axios from "axios";
-import Banner from "../banner/Banner"; // Import the Banner component
-import "./grading.css"; // Import the CSS file
+import Banner from "../banner/Banner"; 
+import "./grading.css";
 
 const Grading = () => {
   const { id } = useParams();

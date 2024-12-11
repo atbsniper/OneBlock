@@ -329,7 +329,7 @@ function Alerts() {
             <div className="report-modal-footer">
               <p className="report-modal-bold">1: The report is based on the instructor action.</p>
               <p className="report-modal-bold">2: For Feedback: PH No. 0523-2342343</p>
-              <p className="report-modal-bold">3: Email: logguard@gmail.com</p>
+              <p className="report-modal-bold">3: Email: oneblock@gmail.com</p>
             </div>
           </div>
           <ReactToPrint
@@ -381,7 +381,7 @@ function Alerts() {
             <div className="report-modal-footer">
               <p className="report-modal-bold">1: The report is based on the instructor action.</p>
               <p className="report-modal-bold">2: For Feedback: PH No. 0523-2342343</p>
-              <p className="report-modal-bold">3: Email: logguard@gmail.com</p>
+              <p className="report-modal-bold">3: Email: oneblock@gmail.com</p>
             </div>
           </div>
           <ReactToPrint
