@@ -14,13 +14,12 @@ const {
 const { initializeApp } = require("firebase/app");
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCMyxy0sY96aKQSwpa-3tGH_NtxAF4oK5Q",
-  authDomain: "logviewer-966bc.firebaseapp.com",
-  projectId: "logviewer-966bc",
-  storageBucket: "logviewer-966bc.appspot.com",
-  messagingSenderId: "179279904966",
-  appId: "1:179279904966:web:80ee1fe727d208264157c7",
-  measurementId: "G-122MQKK30H",
+  apiKey: "AIzaSyDFt0rjaA2EXpwMk0KyyI01HOKx7JNn2FE",
+  authDomain: "oneblock-e3742.firebaseapp.com",
+  projectId: "oneblock-e3742",
+  storageBucket: "oneblock-e3742.firebasestorage.app",
+  messagingSenderId: "531374953707",
+  appId: "1:531374953707:web:2c7aa24c05a43ffab39aae",
 };
 
 const app = initializeApp(firebaseConfig);
@@ -40,7 +39,7 @@ exports.getLog = async (req, res, next) => {
   var data = await logGard.methods.getLogs().call();
   const transformedData = data.map((obj) => ({
     tokenId: Number(obj.tokenId),
-    uri: obj.uri, 
+    uri: obj.uri,
   }));
 
   console.log(transformedData);
@@ -50,7 +49,8 @@ exports.getLog = async (req, res, next) => {
     logs: transformedData,
   });
 };
-// uploads new logs to the smart contract 
+
+// uploads new logs to the smart contract
 exports.uploadLogs = async (req, res, next) => {
   const { action, teacherName, type, data, prevData } = req.body;
 
@@ -61,7 +61,6 @@ exports.uploadLogs = async (req, res, next) => {
   const PublicKey = process.env.VITE_ADMIN_ADDRESS;
   const logGardContractAddress = process.env.CNTRACTADDRESS;
 
- 
   const currentTime = new Date();
   const date = currentTime.toISOString().slice(0, 10);
   const hours = ("0" + currentTime.getHours()).slice(-2);
@@ -72,6 +71,7 @@ exports.uploadLogs = async (req, res, next) => {
 
   const ipAddress = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
   const userAgent = req.headers["user-agent"];
+
   // Function to detect browser
   function detectBrowser(userAgent) {
     if (/edg/i.test(userAgent)) {
@@ -114,7 +114,6 @@ exports.uploadLogs = async (req, res, next) => {
       .uploadLog(PublicKey, JSON.stringify(logs))
       .encodeABI(),
   };
-  // console.log(tx);
 
   const web3 = new Web3(process.env.PROVIDER);
 
@@ -177,7 +176,6 @@ exports.uploadLogs = async (req, res, next) => {
     res.status(200).json({
       status: "success",
       hash: receipt.transactionHash,
-      // tokenId: tokenId,
       logs: logs,
     });
 
