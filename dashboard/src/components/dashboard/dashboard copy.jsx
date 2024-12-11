@@ -23,7 +23,7 @@ function Dashboard() {
       },
     ],
     xaxis: {
-      categories: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+      categories: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
     },
   });
 
@@ -34,7 +34,7 @@ function Dashboard() {
       type: "pie",
     },
     series: [0, 0],
-    labels: ["Attendence", "Grading"],
+    labels: ["Attendance", "Grading"],
   });
   const [alertCount, setAlertCount] = useState(0);
   const [transactionHash, setTransactionHash] = useState({});
@@ -74,7 +74,7 @@ function Dashboard() {
 
       if (viewMode === "daily") {
         const month = new Date(tableData[0].timestamp).toLocaleString('default', { month: 'long' });
-        uniqueDates = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"].map(day => `${day} (${month})`);
+        uniqueDates = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map(day => `${day} (${month})`);
         seriesData = uniqueDates.map((day) => {
           return tableData.reduce((count, item) => {
             const date = new Date(item.timestamp);
@@ -143,15 +143,15 @@ function Dashboard() {
   useEffect(() => {
     if (tableData) {
       let alertCount = 0;
-      let attendenceCount = 0;
+      let attendanceCount = 0;
       let gradingCount = 0;
 
       for (let i = 0; i < tableData.length; i++) {
         if (tableData[i]?.type === "alert") {
           alertCount++;
         }
-        if (tableData[i]?.action === "attendence") {
-          attendenceCount++;
+        if (tableData[i]?.action === "attendance") {
+          attendanceCount++;
         }
         if (tableData[i]?.action === "grading") {
           gradingCount++;
@@ -159,11 +159,11 @@ function Dashboard() {
       }
       console.log(alertCount);
       setAlertCount(alertCount);
-      console.log(attendenceCount);
+      console.log(attendanceCount);
       console.log(gradingCount);
 
       const actionCounts = {
-        Attendence: attendenceCount,
+        Attendance: attendanceCount,
         Grading: gradingCount,
         Alert: alertCount,
       };
@@ -270,7 +270,7 @@ function Dashboard() {
 
                   return (
                     <tr key={i}>
-                      
+                
                       <td>{item.timestamp}</td>
                       <td>{item.ipAddress}</td>
                       <td>

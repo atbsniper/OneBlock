@@ -246,15 +246,13 @@ function Alerts() {
               );
             })}
         </div>
-    {/*
-{alerts && alerts.length > alertsPerPage && (
-  <nav className="pagination-nav">
-    <ul className="pagination">
-      {renderPagination()}
-    </ul>
-  </nav>
-)}
-*/}
+        {alerts && alerts.length > alertsPerPage && (
+          <nav className="pagination-nav">
+            <ul className="pagination">
+              {renderPagination()}
+            </ul>
+          </nav>
+        )}
       </div>
     </div>
   );

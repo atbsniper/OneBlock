@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getAdmin } from "../../firebase/firebaseConfig";
-import "./login.css"; 
-import logo from './logo.png'; 
-import admin from './admin.png'; 
-import '@fortawesome/fontawesome-free/css/all.min.css'; 
+import "./login.css"; // Updated to .css
+import logo from "./oneblocklogo.webp"; // Import the logo image
+import admin from "./admin.png"; // Import the login illustration
+import "@fortawesome/fontawesome-free/css/all.min.css"; // Import Font Awesome
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -46,6 +46,7 @@ const Login = () => {
   useEffect(() => {
     const getAdminData = async () => {
       const test = await getAdmin();
+      console.log(`test: ${JSON.stringify(test)}`);
       console.log(test);
       setAdminDetails(test);
     };
@@ -55,12 +56,12 @@ const Login = () => {
   return (
     <div className="login-container">
       <div className="left-section">
-        <img src={admin} alt="admin" className="login-image" /> 
+        <img src={admin} alt="admin" className="login-image" />
       </div>
       <div className="divider"></div>
       <div className="right-section">
         <div className="logo">
-          <img src={logo} alt="Company Logo" /> 
+          <img src={logo} alt="Company Logo" />
         </div>
         <h2>Login Here!</h2>
         <div className="input-container">

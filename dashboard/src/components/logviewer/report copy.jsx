@@ -1,11 +1,12 @@
+
 import React, { useEffect, useState, useRef } from "react";
 import AsideBar from "../asidebar/aside";
-import ReactApexChart from "react-apexcharts";
 import axios from "axios";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../firebase/firebaseConfig";
 import "./report.css";
 import ReactToPrint from "react-to-print";
+import Banner from "../banner/Banner";
 
 function Alerts() {
   const [tableData, setTableData] = useState([]);
@@ -20,10 +21,8 @@ function Alerts() {
   const [modalData, setModalData] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const logsPerPage = 25;
-  const componentRef = useRef();
 
   useEffect(() => {
-    // Fetches logs from the backend and updates
     const fetchData = async () => {
       try {
         const response = await axios.get(
@@ -61,7 +60,6 @@ function Alerts() {
   }, []);
 
   useEffect(() => {
-    // Processes the fetched logs to extract alert-related information
     const processTableData = () => {
       let alertCount = 0;
       let attendanceCount = 0;
@@ -119,7 +117,8 @@ function Alerts() {
     }
   }, [alerts]);
 
-  // Filter alerts based on teacher name and type filters
+  
+
   useEffect(() => {
     let filtered = alerts;
 
@@ -229,14 +228,14 @@ function Alerts() {
     if (item.data && item.prevData) {
       const changedData = getChangedGrade(item.data, item.prevData);
       const filteredData1 = Object.keys(changedData);
-
+  
       const columnsToDisplay = {
         mid: false,
         assignment: false,
         quiz: false,
         final: false,
       };
-
+  
       filteredData1.forEach((key) => {
         if (changedData[key]?.old?.mid || changedData[key]?.new?.mid)
           columnsToDisplay.mid = true;
@@ -253,9 +252,10 @@ function Alerts() {
         if (changedData[key]?.old?.final || changedData[key]?.new?.final)
           columnsToDisplay.final = true;
       });
-
+  
       setModalData(
         <div>
+          
           <div ref={componentRef} style={{ marginLeft: "50px", marginRight: "50px" }}>
             <h2 style={{ textAlign: "center" }}>Grade Data Report</h2>
             <h3 style={{ textAlign: "center" }}>Detailed Grade Changes</h3>
@@ -329,7 +329,7 @@ function Alerts() {
             <div className="report-modal-footer">
               <p className="report-modal-bold">1: The report is based on the instructor action.</p>
               <p className="report-modal-bold">2: For Feedback: PH No. 0523-2342343</p>
-              <p className="report-modal-bold">3: Email: oneblock@gmail.com</p>
+              <p className="report-modal-bold">3: Email: logguard@gmail.com</p>
             </div>
           </div>
           <ReactToPrint
@@ -341,13 +341,20 @@ function Alerts() {
       setModalVisible(true);
     }
   };
+  
+
+  const componentRef = useRef();
+
+  const handlePrint = () => {
+    window.print();
+  };
 
   const handleViewAttendanceData = (item) => {
     if (item.data && item.prevData) {
       const changedData = getChangedData(item.data, item.prevData);
       const filteredData = filterChangedEntries(changedData);
       const filteredData1 = Object.keys(filteredData);
-
+  
       setModalData(
         <div>
           <div ref={componentRef} style={{ marginLeft: "50px", marginRight: "50px" }}>
@@ -381,7 +388,7 @@ function Alerts() {
             <div className="report-modal-footer">
               <p className="report-modal-bold">1: The report is based on the instructor action.</p>
               <p className="report-modal-bold">2: For Feedback: PH No. 0523-2342343</p>
-              <p className="report-modal-bold">3: Email: oneblock@gmail.com</p>
+              <p className="report-modal-bold">3: Email: logguard@gmail.com</p>
             </div>
           </div>
           <ReactToPrint
@@ -393,10 +400,8 @@ function Alerts() {
       setModalVisible(true);
     }
   };
-
-  const handlePrint = () => {
-    window.print();
-  };
+  
+  
 
   const indexOfLastLog = currentPage * logsPerPage;
   const indexOfFirstLog = indexOfLastLog - logsPerPage;
@@ -450,30 +455,23 @@ function Alerts() {
       <AsideBar />
       <div className="report-content-area">
         <div className="report-after-content-wrap">
-          {/* alerts component starts here */}
           <div className="report-alerts-main">
-            <div className="report-header">
-              <h3 className="my-3">Log Viewer</h3>
-              <div className="report-filters">
-                <label>
-                  <input
-                    type="text"
-                    value={teacherFilter}
-                    onChange={(e) => setTeacherFilter(e.target.value)}
-                    placeholder="Filter by Teacher Name"
-                  />
-                </label>
-                <label>
-                  <input
-                    type="text"
-                    value={typeFilter}
-                    onChange={(e) => setTypeFilter(e.target.value)}
-                    placeholder="Filter by Type"
-                  />
-                </label>
-              </div>
+            <div className="report-filter-heading">Filters</div>
+            <div className="report-filters">
+              <input
+                type="text"
+                value={teacherFilter}
+                onChange={(e) => setTeacherFilter(e.target.value)}
+                placeholder="Filter by Teacher Name"
+              />
+              <input
+                type="text"
+                value={typeFilter}
+                onChange={(e) => setTypeFilter(e.target.value)}
+                placeholder="Filter by Action"
+              />
             </div>
-  
+
             <div className="report-tables-starts">
               <div className="report-table-wrapper">
                 <table className="report-table">
@@ -482,177 +480,119 @@ function Alerts() {
                       <th>#</th>
                       <th>Teacher Name</th>
                       <th>Action</th>
-                      <th>Type</th>
                       <th>IP Address</th>
-                      <th>New Data</th>
-                      <th>New Hash</th>
                       <th>Previous Data</th>
                       <th>Previous Hash</th>
+                      <th>New Data</th>
+                      <th>New Hash</th>
                       <th>View Data</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {filteredAlerts &&
-                      filteredAlerts
-                        .slice()
-                        .reverse() // Display in reverse order
-                        .map((item, i) => {
-                          const handleDownload = () => {
-                            if (item.data) {
-                              const data = JSON.stringify(item.data, null, 2);
-                              const blob = new Blob([data], {
-                                type: "text/plain",
-                              });
-                              const url = URL.createObjectURL(blob);
-                              const a = document.createElement("a");
-                              a.href = url;
-                              a.download = "new_data.log";
-                              document.body.appendChild(a);
-                              a.click();
-                              document.body.removeChild(a);
-                              URL.revokeObjectURL(url);
-                            }
-                          };
-  
-                          const handleDownload2 = () => {
-                            if (item.prevData) {
-                              const data = JSON.stringify(item.prevData, null, 2);
-                              const blob = new Blob([data], {
-                                type: "text/plain",
-                              });
-                              const url = URL.createObjectURL(blob);
-                              const a = document.createElement("a");
-                              a.href = url;
-                              a.download = "prev_data.log";
-                              document.body.appendChild(a);
-                              a.click();
-                              document.body.removeChild(a);
-                              URL.revokeObjectURL(url);
-                            }
-                          };
-  
-                          const handleDownloadChangedData = () => {
-                            if (item.data && item.prevData) {
-                              const changedData = getChangedData(
-                                item.data,
-                                item.prevData
-                              );
-                              const tryData = filterChangedEntries(changedData);
-                              const data = JSON.stringify(tryData, null, 2);
-                              const blob = new Blob([data], {
-                                type: "text/plain",
-                              });
-                              const url = URL.createObjectURL(blob);
-                              const a = document.createElement("a");
-                              a.href = url;
-                              a.download = "changed_data.log";
-                              document.body.appendChild(a);
-                              a.click();
-                              document.body.removeChild(a);
-                              URL.revokeObjectURL(url);
-                            }
-                          };
-  
-                          if (item.data && item.prevData) {
-                            const changedData = getChangedData(
-                              item.data,
-                              item.prevData
-                            );
-                            if (Object.keys(changedData).length === 0) {
-                              return null; // Skip rendering this row
-                            }
-                          }
-  
-                          return (
-                            <tr key={i}>
-                              <td>{i + 1}</td>
-                              <td>{item.teacherName}</td>
-                              <td>{item.action}</td>
-                              <td>{item?.type ? item.type : "-"}</td>
-                              <td>{item.ipAddress}</td>
-                              <td>
-                                {item.data ? (
-                                  <button
-                                    className="report-btn report-btn-success"
-                                    onClick={handleDownload}
-                                  >
-                                    New Data
-                                  </button>
-                                ) : (
-                                  "-"
-                                )}
-                              </td>
-                              <td>
-                                {transactionHash &&
-                                transactionHash[item.tokenId] === undefined
-                                  ? "-"
-                                  : transactionHash &&
-                                    transactionHash[item.tokenId]}
-                              </td>
-                              <td>
-                                {item.prevData ? (
-                                  <button
-                                    className="report-btn report-btn-success"
-                                    onClick={handleDownload2}
-                                  >
-                                    Previous Data
-                                  </button>
-                                ) : (
-                                  "-"
-                                )}
-                              </td>
-                              <td>
-                                {transactionHash &&
-                                transactionHash[item.tokenId - 1] === undefined
-                                  ? "-"
-                                  : transactionHash &&
-                                    transactionHash[item.tokenId - 1]}
-                              </td>
-                              <td>
-                                <div
-                                  className="report-btn-group"
-                                  role="group"
-                                  aria-label="View Data"
-                                >
-                                  {item.action === "grading" && (
-                                    <button
-                                      className="report-btn report-btn-primary"
-                                      onClick={() => handleViewGradeData(item)}
-                                    >
-                                      View Grade
-                                    </button>
-                                  )}
-                                  {item.action === "attendance" && (
-                                    <button
-                                      className="report-btn report-btn-primary"
-                                      onClick={() => handleViewAttendanceData(item)}
-                                    >
-                                      View Attendance
-                                    </button>
-                                  )}
-                                </div>
-                              </td>
-                            </tr>
-                          );
-                        })}
+                    {reversedLogs.map((item, i) => {
+                      const handleDownload = () => {
+                        if (item.data) {
+                          const data = JSON.stringify(item.data, null, 2);
+                          const blob = new Blob([data], { type: "text/plain" });
+                          const url = URL.createObjectURL(blob);
+                          const a = document.createElement("a");
+                          a.href = url;
+                          a.download = "new_data.log";
+                          document.body.appendChild(a);
+                          a.click();
+                          document.body.removeChild(a);
+                          URL.revokeObjectURL(url);
+                        }
+                      };
+
+                      const handleDownload2 = () => {
+                        if (item.prevData) {
+                          const data = JSON.stringify(item.prevData, null, 2);
+                          const blob = new Blob([data], { type: "text/plain" });
+                          const url = URL.createObjectURL(blob);
+                          const a = document.createElement("a");
+                          a.href = url;
+                          a.download = "prev_data.log";
+                          document.body.appendChild(a);
+                          a.click();
+                          document.body.removeChild(a);
+                          URL.revokeObjectURL(url);
+                        }
+                      };
+
+                      if (item.data && item.prevData) {
+                        const changedData = getChangedData(item.data, item.prevData);
+                        if (Object.keys(changedData).length === 0) {
+                          return null; // Skip rendering this row
+                        }
+                      }
+
+                      return (
+                        <tr key={i}>
+                          <td>{indexOfFirstLog + i + 1}</td>
+                          <td>{item.teacherName}</td>
+                          <td>{item.action}</td>
+                          <td>{item.ipAddress}</td>
+                          <td>
+                            {item.data ? (
+                              <button className="report-btn report-btn-success" onClick={handleDownload}>
+                                Previous
+                              </button>
+                            ) : (
+                              "-"
+                            )}
+                          </td>
+                          <td>
+                            {transactionHash && transactionHash[item.tokenId - 1] === undefined
+                              ? "-"
+                              : transactionHash && transactionHash[item.tokenId - 1]}
+                          </td>
+                          <td>
+                            {item.prevData ? (
+                              <button className="report-btn report-btn-success" onClick={handleDownload2}>
+                                New
+                              </button>
+                            ) : (
+                              "-"
+                            )}
+                          </td>
+                          <td>
+                            {transactionHash && transactionHash[item.tokenId] === undefined
+                              ? "-"
+                              : transactionHash && transactionHash[item.tokenId]}
+                          </td>
+                          <td>
+                            <div className="report-btn-group" role="group" aria-label="View Data">
+                              {item.action === "grading" && (
+                                <button className="report-btn report-btn-primary" onClick={() => handleViewGradeData(item)}>
+                                  View Grade Data
+                                </button>
+                              )}
+                              {item.action === "attendence" && (
+                                <button className="report-btn report-btn-primary" onClick={() => handleViewAttendanceData(item)}>
+                                  View Attendance Data
+                                </button>
+                              )}
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
-  
-                {!showAllLogs && filteredAlerts && filteredAlerts.length > 5 && (
-                  <button
-                    className="report-btn report-btn-success"
-                    onClick={() => setShowAllLogs(true)}
-                  >
-                    See More
-                  </button>
+                {filteredAlerts.length > logsPerPage && (
+                  <nav className="report-pagination-nav">
+                    <ul className="report-pagination">
+                      {renderPagination()}
+                    </ul>
+                  </nav>
                 )}
               </div>
             </div>
           </div>
-          {/* alerts component ends here */}
         </div>
       </div>
-  
+
       {modalVisible && (
         <div className="report-modal">
           <div className="report-modal-content">
@@ -664,7 +604,7 @@ function Alerts() {
         </div>
       )}
     </div>
-  );  
+  );
 }
 
 export default Alerts;

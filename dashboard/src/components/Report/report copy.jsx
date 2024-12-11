@@ -39,7 +39,7 @@ function Alerts() {
           // Extract timestamp and calculate time difference
           const alertTimestamp = new Date(entry.timestamp);
           const timeDifference =
-            (currentTimestamp - alertTimestamp) / (1000 * 60 * 60); 
+            (currentTimestamp - alertTimestamp) / (1000 * 60 * 60); // Difference in hours
 
           // Round down to the nearest hour
           const hourDifference = Math.floor(timeDifference);
@@ -79,7 +79,7 @@ function Alerts() {
       const uniqueMonthsYears = [
         ...new Set(
           alerts.map((item) => {
-            const [year, month] = item.timestamp.split("-").slice(0, 2); 
+            const [year, month] = item.timestamp.split("-").slice(0, 2); // Adjust if timestamp format is different
             return `${month}-${year}`;
           })
         ),
@@ -89,7 +89,7 @@ function Alerts() {
       const seriesData = uniqueMonthsYears.map((monthYear) => {
         const [month, year] = monthYear.split("-");
         return alerts.reduce((count, item) => {
-          const [itemYear, itemMonth] = item.timestamp.split("-").slice(0, 2); 
+          const [itemYear, itemMonth] = item.timestamp.split("-").slice(0, 2); // Adjust if timestamp format is different
           if (itemYear === year && itemMonth === month) {
             return count + 1;
           }
@@ -257,7 +257,7 @@ function Alerts() {
                     {filteredAlerts &&
                       filteredAlerts
                         .slice()
-                        .reverse() 
+                        .reverse() // Display in reverse order
                         .map((item, i) => {
                           const handleDownload = () => {
                             if (item.data) {
@@ -328,7 +328,7 @@ function Alerts() {
                               item.prevData
                             );
                             if (Object.keys(changedData).length === 0) {
-                              return null; 
+                              return null; // Skip rendering this row
                             }
                           }
 

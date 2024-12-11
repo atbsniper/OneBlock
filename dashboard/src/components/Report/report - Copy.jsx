@@ -404,7 +404,7 @@ function Alerts() {
           if (item.data && item.prevData) {
             const changedData = getChangedData(item.data, item.prevData);
             if (Object.keys(changedData).length === 0) {
-              return null; 
+              return null; // Skip rendering this row
             }
           }
 

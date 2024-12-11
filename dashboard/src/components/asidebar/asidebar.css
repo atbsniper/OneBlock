@@ -1,11 +1,11 @@
 /* Sidebar Styles */
 .main-aside-wrapp {
-  width: 250px; 
+  width: 250px; /* Width of the sidebar */
   background: #1c1c1c;
   color: #fff;
   position: fixed;
   top: 0;
-  left: -250px; 
+  left: -250px; /* Fully hidden initially */
   height: 100vh;
   border-right: 2px solid #333;
   padding: 20px;
@@ -16,7 +16,7 @@
 }
 
 .main-aside-wrapp.active {
-  left: 0; 
+  left: 0; /* Visible when active */
 }
 
 .main-aside-wrapp h1 {
@@ -90,7 +90,7 @@ button.btn:hover {
 }
 
 .sidebar-toggle.active {
-  left: 250px; 
+  left: 250px; /* Align with the sidebar */
 }
 
 .sidebar-toggle:hover {

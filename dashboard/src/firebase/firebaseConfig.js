@@ -5,13 +5,12 @@ import { doc, getFirestore } from "firebase/firestore";
 import { collection, getDoc } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCMyxy0sY96aKQSwpa-3tGH_NtxAF4oK5Q",
-  authDomain: "logviewer-966bc.firebaseapp.com",
-  projectId: "logviewer-966bc",
-  storageBucket: "logviewer-966bc.appspot.com",
-  messagingSenderId: "179279904966",
-  appId: "1:179279904966:web:80ee1fe727d208264157c7",
-  measurementId: "G-122MQKK30H",
+  apiKey: "AIzaSyDFt0rjaA2EXpwMk0KyyI01HOKx7JNn2FE",
+  authDomain: "oneblock-e3742.firebaseapp.com",
+  projectId: "oneblock-e3742",
+  storageBucket: "oneblock-e3742.firebasestorage.app",
+  messagingSenderId: "531374953707",
+  appId: "1:531374953707:web:2c7aa24c05a43ffab39aae",
 };
 
 // Initialize Firebase
