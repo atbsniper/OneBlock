@@ -10,6 +10,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AddTeacher from "./components/addteacher/addteacher";
 import Addstudents from "./components/addstudents/addstudents";
+import Announcement from "./components/announcement/Announcement";
+
 function App() {
   return (
     <>
@@ -22,6 +24,7 @@ function App() {
           <Route path="/grading/:id" element={<Grading />} />
           <Route path="/addteacher" element={<AddTeacher />} />
           <Route path="/addstudents" element={<Addstudents />} />
+          <Route path="/announcement/:id" element={<Announcement />} />
         </Routes>
       </Router>
     </>

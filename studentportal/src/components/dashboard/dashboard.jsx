@@ -59,6 +59,12 @@ const Dashboard = () => {
               >
                 Grading
               </div>
+              <div
+                className="box"
+                onClick={() => navigate(`/announcement/${selectedCourse}`)}
+              >
+                Add Announcement
+              </div>
             </div>
           </>
         )}
