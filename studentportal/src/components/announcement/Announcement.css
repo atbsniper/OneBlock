@@ -1,54 +1,156 @@
 .announcement-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    font-family: Arial, sans-serif;
-  }
-  
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  min-height: 100vh;
+}
+
+.announcement-box {
+  position: fixed;
+  top: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 600px;
+  background-color: white;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+}
+
+.announcement-box h2 {
+  margin-bottom: 20px;
+  color: #333;
+  text-align: center;
+  font-size: 1.5em;
+}
+
+.announcement-box form {
+  display: flex;
+  gap: 10px;
+}
+
+.announcement-box input {
+  flex: 1;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  color: #333;
+}
+
+.announcement-box button {
+  padding: 12px 25px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-weight: 500;
+}
+
+.announcement-box button:hover {
+  background-color: #0056b3;
+}
+
+.announcements-list {
+  padding-top: 200px;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.announcements-list h2 {
+  margin-bottom: 30px;
+  color: #333;
+  text-align: center;
+  font-size: 1.8em;
+}
+
+.announcement-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+}
+
+.announcement-card {
+  background-color: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 25px;
+  position: relative;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  min-height: 150px;
+  color: #000;
+}
+
+.announcement-card .course-name {
+  font-size: 1.3em;
+  font-weight: bold;
+  color: #000;
+  margin-bottom: 8px;
+}
+
+.announcement-card .teacher-name {
+  color: #333;
+  font-size: 1em;
+  margin-bottom: 16px;
+}
+
+.announcement-card .message {
+  color: #000;
+  font-size: 1.1em;
+  line-height: 1.6;
+  margin-bottom: 25px;
+}
+
+.announcement-card .timestamp {
+  color: #666;
+  font-size: 0.9em;
+  position: absolute;
+  bottom: 15px;
+  right: 20px;
+}
+
+.loading {
+  text-align: center;
+  padding: 20px;
+  font-size: 18px;
+  color: #666;
+  margin-top: 200px;
+}
+
+.error-message {
+  background-color: #fff3f3;
+  color: #dc3545;
+  padding: 15px;
+  border-radius: 8px;
+  margin: 200px auto 20px;
+  border: 1px solid #ffcdd2;
+  text-align: center;
+  max-width: 600px;
+}
+
+@media (max-width: 768px) {
   .announcement-box {
-    background: #fff;
+    width: 85%;
     padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    width: 50%;
-    text-align: center;
   }
-  
-  .announcement-box input {
-    width: 80%;
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+
+  .announcement-box form {
+    flex-direction: column;
   }
-  
-  .announcement-box button {
-    background: #007bff;
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
+
   .announcements-list {
-    margin-top: 20px;
-    width: 80%;
+    padding-top: 250px;
   }
-  
-  .announcements-list table {
-    width: 100%;
-    border-collapse: collapse;
+
+  .announcement-card {
+    margin: 0 10px;
   }
-  
-  .announcements-list th, .announcements-list td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
-  }
-  
-  .announcements-list th {
-    background-color: #f8f9fa;
-  }
+}
   
