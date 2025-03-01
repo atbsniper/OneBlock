@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { collection, addDoc, getDocs, query, orderBy, where } from "firebase/firestore";
 import { db } from "../../firebase/firebaseConfig";
 import Banner from "../banner/Banner";
-import "./announcement.css";
+import "./Announcement.css";
 
 const Announcement = () => {
   const { id } = useParams();
