@@ -618,6 +618,7 @@ function Alerts() {
                                     <button
                                       className="report-btn report-btn-primary"
                                       onClick={() => handleViewGradeData(item)}
+                                      title="View Grade Data"
                                     >
                                       View Grade
                                     </button>
@@ -626,6 +627,7 @@ function Alerts() {
                                     <button
                                       className="report-btn report-btn-primary"
                                       onClick={() => handleViewAttendanceData(item)}
+                                      title="View Attendance Data"
                                     >
                                       View Attendance
                                     </button>
@@ -639,12 +641,14 @@ function Alerts() {
                 </table>
   
                 {!showAllLogs && filteredAlerts && filteredAlerts.length > 5 && (
-                  <button
-                    className="report-btn report-btn-success"
-                    onClick={() => setShowAllLogs(true)}
-                  >
-                    See More
-                  </button>
+                  <div className="text-center mt-3">
+                    <button
+                      className="report-btn report-btn-success"
+                      onClick={() => setShowAllLogs(true)}
+                    >
+                      See More
+                    </button>
+                  </div>
                 )}
               </div>
             </div>
