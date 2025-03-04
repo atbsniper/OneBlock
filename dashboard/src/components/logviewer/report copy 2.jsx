@@ -21,7 +21,7 @@ function Alerts() {
     // Fetch IP addresses
     const fetchIpAddresses = async () => {
       try {
-        const response = "192.168.1.1"//await axios.get("https://api64.ipify.org?format=json"); // Replace with your API endpoint
+        const response = await axios.get("https://api64.ipify.org?format=json");
         setIpAddresses(response.data);
       } catch (error) {
         console.error("Error fetching IP addresses:", error);
