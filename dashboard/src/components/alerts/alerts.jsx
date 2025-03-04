@@ -49,7 +49,7 @@ function Alerts() {
   }, [tableData]);
 
   const getLogs = async () => {
-    const url2 = `${import.meta.env.VITE_BASE_URL}/LogGard/getLogs`;
+    const url2 = `${import.meta.env.VITE_BASE_URL_LIVE}/LogGard/getLogs`;
     console.log(url2);
     await axios
       .get(url2)
