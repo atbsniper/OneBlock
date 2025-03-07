@@ -27,7 +27,7 @@ function Alerts() {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_BASE_URL}/LogGard/getLogs`
+          `${import.meta.env.VITE_BASE_URL_LIVE}/LogGard/getLogs`
         );
         const parsedData = response.data.logs.map((item) => {
           const parsedItem = JSON.parse(item.uri);
