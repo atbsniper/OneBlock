@@ -19,6 +19,8 @@ const Attendance = () => {
   const [students, setStudents] = useState();
   const [selectedDate, setSelectedDate] = useState("");
   const [attendanceData, setAttendanceData] = useState();
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredAttendanceData, setFilteredAttendanceData] = useState([]);
 
   const getStudentsFire = async () => {
     const test = await getStudents();
@@ -251,6 +253,22 @@ const Attendance = () => {
     console.log(attendanceData);
   }, [attendanceData]);
 
+  // Add useEffect for filtering attendance data based on search term
+  useEffect(() => {
+    if (!attendanceData) return;
+    
+    if (searchTerm === "") {
+      setFilteredAttendanceData(attendanceData);
+    } else {
+      const filtered = attendanceData.filter(
+        (student) =>
+          student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          student.rollNo.toString().includes(searchTerm.toLowerCase())
+      );
+      setFilteredAttendanceData(filtered);
+    }
+  }, [searchTerm, attendanceData]);
+
   return (
     <div className="attendance-container">
       <Banner />
@@ -267,6 +285,15 @@ const Attendance = () => {
             onChange={handleDateChange}
           />
         </div>
+        <div className="search-container">
+          <input
+            type="text"
+            placeholder="Search by name or roll number"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="search-input"
+          />
+        </div>
         <table className="attendance-table">
           <thead>
             <tr>
@@ -277,28 +304,20 @@ const Attendance = () => {
             </tr>
           </thead>
           <tbody>
-            {students &&
-              students.length > 0 &&
-              students.map((student, index) => (
-                <tr key={student.rollNo}>
-                  <td className="serial-number">{index + 1}</td>
-                  <td className="roll-number">{student.rollNo}</td>
-                  <td className="student-name">{student.name}</td>
-                  <td className="checkbox">
-                    <input
-                      type="checkbox"
-                      checked={
-                        (attendanceData &&
-                          attendanceData.find(
-                            (data) => data.rollNo === student.rollNo
-                          )?.isPresent) ||
-                        false
-                      }
-                      onChange={() => handleAttendanceChange(student.rollNo)}
-                    />
-                  </td>
-                </tr>
-              ))}
+            {filteredAttendanceData?.map((student, index) => (
+              <tr key={index}>
+                <td>{index + 1}</td>
+                <td>{student.rollNo}</td>
+                <td>{student.name}</td>
+                <td>
+                  <input
+                    type="checkbox"
+                    checked={student.isPresent}
+                    onChange={() => handleAttendanceChange(student.rollNo)}
+                  />
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
         <button

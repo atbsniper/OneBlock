@@ -15,6 +15,8 @@ const Grading = () => {
   const [prevGrades, setPrevGrades] = useState({});
   const [loggedInUser, setLoggedInUser] = useState("");
   const [loading, setLoading] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredStudents, setFilteredStudents] = useState([]);
 
   const getStudentsFire = async () => {
     const test = await getStudents();
@@ -88,6 +90,19 @@ const Grading = () => {
   useEffect(() => {
     setLoggedInUser(JSON.parse(localStorage.getItem("loggedInUser")));
   }, []);
+
+  useEffect(() => {
+    if (searchTerm === "") {
+      setFilteredStudents(students);
+    } else {
+      const filtered = students.filter(
+        (student) =>
+          student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          student.rollNo.toString().includes(searchTerm.toLowerCase())
+      );
+      setFilteredStudents(filtered);
+    }
+  }, [searchTerm, students]);
 
   const currentURL = window.location.href;
 
@@ -165,78 +180,66 @@ const Grading = () => {
       <h3>Course ID: {id}</h3>
       <div className="grading-content">
         <h2>Grades Table</h2>
+        <div className="search-container">
+          <input
+            type="text"
+            placeholder="Search by name or roll number"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="search-input"
+          />
+        </div>
         <table className="grading-table">
           <thead>
             <tr>
-              <th>Serial No</th> {/* Add Serial No column header */}
-              <th>Student Roll No</th>
-              <th>Student Name</th>
-              <th>Quiz 1</th>
-              <th>Quiz 2</th>
-              <th>Quiz 3</th>
-              <th>Assignment 1</th>
-              <th>Assignment 2</th>
-              <th>Assignment 3</th>
-              <th>Mid</th>
-              <th>Final</th>
+              <th rowSpan="2">S.No</th>
+              <th rowSpan="2">Roll No</th>
+              <th rowSpan="2">Name</th>
+              <th colSpan="3" className="section-header">Quizzes</th>
+              <th colSpan="3" className="section-header">Assignments</th>
+              <th colSpan="2" className="section-header">Exams</th>
+            </tr>
+            <tr className="grade-section">
+              <th className="quiz-columns">Q1</th>
+              <th className="quiz-columns">Q2</th>
+              <th className="quiz-columns">Q3</th>
+              <th className="assignment-columns">A1</th>
+              <th className="assignment-columns">A2</th>
+              <th className="assignment-columns">A3</th>
+              <th className="exam-columns">Mid</th>
+              <th className="exam-columns">Final</th>
             </tr>
           </thead>
           <tbody>
-            {students.length > 0 &&
-              students.map((student, index) => ( // Add index parameter to map function
+            {filteredStudents.length > 0 &&
+              filteredStudents.map((student, index) => (
                 <tr key={student.rollNo}>
-                  <td>{index + 1}</td> {/* Display serial number */}
+                  <td>{index + 1}</td>
                   <td className="roll-number">{student.rollNo}</td>
                   <td className="student-name">{student.name}</td>
                   <td>
-                  <input
-                      type="number"
-                      value={(grades[student.rollNo]?.quiz[0]) || ""}
-                      min="1"
-                      max="5"
-                      step="1"
+                    <input
+                      type="text"
+                      value={grades[student.rollNo]?.quiz[0] || ""}
                       onChange={(e) => {
-                        const value = parseInt(e.target.value);
-                        if (value >= 1 && value <= 5) {
+                        const value = e.target.value;
+                        if (/^([0-9]|[1-9][0-9]|100)?$/.test(value)) {
                           handleGradeChange(student.rollNo, "quiz", value, 0);
                         } else {
-                          // Optionally handle the invalid case, e.g., reset the value
                           e.target.value = (grades[student.rollNo]?.quiz[0]) || "";
                         }
                       }}
                     />
                   </td>
                   <td>
-                  <input
-                      type="number"
-                      value={(grades[student.rollNo]?.quiz[1]) || ""}
-                      min="1"
-                      max="5"
-                      step="1"
+                    <input
+                      type="text"
+                      value={grades[student.rollNo]?.quiz[1] || ""}
                       onChange={(e) => {
-                        const value = parseInt(e.target.value);
-                        if (value >= 1 && value <= 5) {
+                        const value = e.target.value;
+                        if (/^([0-9]|[1-9][0-9]|100)?$/.test(value)) {
                           handleGradeChange(student.rollNo, "quiz", value, 1);
                         } else {
-                          
-                          e.target.value = (grades[student.rollNo]?.quiz[1]) || "";
-                        }
-                      }}
-                    />
-                  </td>
-                  <td>
-                  <input
-                      type="number"
-                      value={(grades[student.rollNo]?.quiz[2]) || ""}
-                      min="1"
-                      max="5"
-                      step="1"
-                      onChange={(e) => {
-                        const value = parseInt(e.target.value);
-                        if (value >= 1 && value <= 5) {
-                          handleGradeChange(student.rollNo, "quiz", value, 2);
-                        } else {
-                          
                           e.target.value = (grades[student.rollNo]?.quiz[1]) || "";
                         }
                       }}
@@ -244,17 +247,27 @@ const Grading = () => {
                   </td>
                   <td>
                     <input
-                      type="number"
-                      value={(grades[student.rollNo]?.assignment[0]) || ""}
-                      min="1"
-                      max="5"
-                      step="1"
+                      type="text"
+                      value={grades[student.rollNo]?.quiz[2] || ""}
                       onChange={(e) => {
-                        const value = parseInt(e.target.value);
-                        if (value >= 1 && value <= 5) {
+                        const value = e.target.value;
+                        if (/^([0-9]|[1-9][0-9]|100)?$/.test(value)) {
+                          handleGradeChange(student.rollNo, "quiz", value, 2);
+                        } else {
+                          e.target.value = (grades[student.rollNo]?.quiz[1]) || "";
+                        }
+                      }}
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      value={grades[student.rollNo]?.assignment[0] || ""}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        if (/^([0-9]|[1-9][0-9]|100)?$/.test(value)) {
                           handleGradeChange(student.rollNo, "assignment", value, 0);
                         } else {
-                          
                           e.target.value = (grades[student.rollNo]?.assignment[0]) || "";
                         }
                       }}
@@ -262,53 +275,41 @@ const Grading = () => {
                   </td>
                   <td>
                     <input
-                        type="number"
-                        value={(grades[student.rollNo]?.assignment[1]) || ""}
-                        min="1"
-                        max="5"
-                        step="1"
-                        onChange={(e) => {
-                          const value = parseInt(e.target.value);
-                          if (value >= 1 && value <= 5) {
-                            handleGradeChange(student.rollNo, "assignment", value, 1);
-                          } else {
-                           
-                            e.target.value = (grades[student.rollNo]?.assignment[1]) || "";
-                          }
-                        }}
-                      />
-                  </td>
-                  <td>
-                    <input
-                        type="number"
-                        value={(grades[student.rollNo]?.assignment[2]) || ""}
-                        min="1"
-                        max="5"
-                        step="1"
-                        onChange={(e) => {
-                          const value = parseInt(e.target.value);
-                          if (value >= 1 && value <= 5) {
-                            handleGradeChange(student.rollNo, "assignment", value, 2);
-                          } else {
-                            
-                            e.target.value = (grades[student.rollNo]?.assignment[2]) || "";
-                          }
-                        }}
-                      />
-                  </td>
-                  <td>
-                    <input
-                      type="number"
-                      value={(grades[student.rollNo]?.mid) || ""}
-                      min="0"
-                      max="50"
-                      step="1"
+                      type="text"
+                      value={grades[student.rollNo]?.assignment[1] || ""}
                       onChange={(e) => {
-                        const value = parseInt(e.target.value, 10);
-                        if (value >= 0 && value <= 50) {
+                        const value = e.target.value;
+                        if (/^([0-9]|[1-9][0-9]|100)?$/.test(value)) {
+                          handleGradeChange(student.rollNo, "assignment", value, 1);
+                        } else {
+                          e.target.value = (grades[student.rollNo]?.assignment[1]) || "";
+                        }
+                      }}
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      value={grades[student.rollNo]?.assignment[2] || ""}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        if (/^([0-9]|[1-9][0-9]|100)?$/.test(value)) {
+                          handleGradeChange(student.rollNo, "assignment", value, 2);
+                        } else {
+                          e.target.value = (grades[student.rollNo]?.assignment[2]) || "";
+                        }
+                      }}
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      value={grades[student.rollNo]?.mid || ""}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        if (/^([0-9]|[1-9][0-9]|100)?$/.test(value)) {
                           handleGradeChange(student.rollNo, "mid", value);
                         } else {
-                         
                           e.target.value = (grades[student.rollNo]?.mid) || "";
                         }
                       }}
@@ -316,21 +317,17 @@ const Grading = () => {
                   </td>
                   <td>
                     <input
-                        type="number"
-                        value={(grades[student.rollNo]?.final) || ""}
-                        min="0"
-                        max="100"
-                        step="1"
-                        onChange={(e) => {
-                          const value = parseInt(e.target.value, 10);
-                          if (value >= 0 && value <= 100) {
-                            handleGradeChange(student.rollNo, "final", value);
-                          } else {
-                
-                            e.target.value = (grades[student.rollNo]?.final) || "";
-                          }
-                        }}
-                      />
+                      type="text"
+                      value={grades[student.rollNo]?.final || ""}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        if (/^([0-9]|[1-9][0-9]|100)?$/.test(value)) {
+                          handleGradeChange(student.rollNo, "final", value);
+                        } else {
+                          e.target.value = (grades[student.rollNo]?.final) || "";
+                        }
+                      }}
+                    />
                   </td>
                 </tr>
               ))}

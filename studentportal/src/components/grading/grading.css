@@ -6,44 +6,97 @@
   align-items:center; 
 }
 
-.grading-container h2,
-.grading-container h3{
+.grading-container h2 {
   font-size: 24px;
-  color: #000000;
+  color: #0a0a0a;
+  margin-top: 40px;
+  margin-bottom: 5px; /* Reduce space below h2 */
 }
 
+.grading-container h3 {
+  font-size: 24px;
+  color: #0f0f0f;
+  margin-top: 5px; /* Reduce space above h3 */
+}
 .grading-content {
   width: 80%;
   margin-top: 0px;
 }
 
 .grading-table {
-  width: 108%; 
+  width: 100%;
   border-collapse: collapse;
-  margin-bottom: 20px;
+  margin: 20px 0;
+  font-size: 14px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: white;
 }
 
 .grading-table th,
 .grading-table td {
-  border: 1px solid #ddd;
-  padding: 8px;
+  padding: 12px 15px;
   text-align: center;
-  color: rgb(0, 0, 0);
-  background-color: #ffffff;
-  align-content: center;
+  border: none;
 }
 
 .grading-table th {
-  background-color: #1e354ed3; 
+  background-color: #3c4b64;
   color: white;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+}
+
+.grading-table tr:nth-child(even) {
+  background-color: #f8f9fa;
+}
+
+.grading-table tr:hover {
+  background-color: #e9ecef;
 }
 
 .grading-table td.roll-number {
-  width: 150px; 
+  font-weight: 600;
+  color: #495057;
 }
 
 .grading-table td.student-name {
-  width: 150px; 
+  text-align: left;
+  font-weight: 500;
+  color: #343a40;
+}
+
+.grading-table input[type="text"],
+.grading-table input[type="number"] {
+  width: 50px;
+  padding: 8px;
+  text-align: center;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  transition: all 0.2s;
+  font-size: 14px;
+  background-color: #f8f9fb;
+}
+
+.grading-table input[type="number"]::-webkit-inner-spin-button,
+.grading-table input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.grading-table input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.grading-table input[type="text"]:focus,
+.grading-table input[type="number"]:focus {
+  outline: none;
+  border-color: #4d7cfe;
+  box-shadow: 0 0 0 3px rgba(77, 124, 254, 0.25);
+  background-color: white;
 }
 
 .grading-table td input[type="number"] {
@@ -86,4 +139,68 @@
 
 .back-button:hover {
   background-color: #282829;
+}
+
+.search-container {
+  margin-bottom: 20px;
+  width: 100%;
+  max-width: 400px;
+  padding: 0 20px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.search-input {
+  width: 100%;
+  max-width: 350px;
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.search-input::placeholder {
+  color: #aaa;
+}
+
+.grade-section {
+  background-color: #e9ecef;
+  font-weight: 600;
+}
+
+.section-header {
+  background-color: #5c6b84 !important;
+  color: white;
+}
+
+.grading-table tbody tr td {
+  padding: 12px 6px;
+}
+
+.quiz-columns th, 
+.assignment-columns th,
+.exam-columns th {
+  border-bottom: 2px solid #4d7cfe;
+}
+
+.quiz-columns th {
+  background-color: #4d7cfe;
+}
+
+.assignment-columns th {
+  background-color: #5d8aff;
+}
+
+.exam-columns th {
+  background-color: #6e97ff;
 }
