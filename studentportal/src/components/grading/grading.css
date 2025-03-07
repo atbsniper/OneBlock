@@ -16,7 +16,7 @@
 .grading-container h3 {
   font-size: 24px;
   color: #0f0f0f;
-  margin-top: 5px; /* Reduce space above h3 */
+  margin-top: 40px; /* Reduce space above h3 */
 }
 .grading-content {
   width: 80%;
