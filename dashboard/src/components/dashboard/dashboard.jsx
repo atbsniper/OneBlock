@@ -6,6 +6,7 @@ import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../firebase/firebaseConfig";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import AsideBar from "../asidebar/aside";
 
 function Dashboard() {
   const [viewMode, setViewMode] = useState("daily");
@@ -38,6 +39,9 @@ function Dashboard() {
   });
   const [alertCount, setAlertCount] = useState(0);
   const [transactionHash, setTransactionHash] = useState({});
+  const [courses, setCourses] = useState([]);
+  const [totalStudents, setTotalStudents] = useState(0);
+  const [activeFilter, setActiveFilter] = useState('active');
 
   const getLogs = async () => {
     const url2 = `${import.meta.env.VITE_BASE_URL_LIVE}/LogGard/getLogs`;
@@ -195,112 +199,112 @@ function Dashboard() {
     getTransactionHashes();
   }, []);
 
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const loggedInUser = JSON.parse(localStorage.getItem("loggedInUserLog"));
+        if (!loggedInUser) return;
+
+        // Fetch courses from teachers collection
+        const teachersRef = collection(db, "teachers");
+        const teachersSnapshot = await getDocs(teachersRef);
+        let allCourses = [];
+        let studentCount = 0;
+
+        for (const teacherDoc of teachersSnapshot.docs) {
+          const teacherData = teacherDoc.data();
+          if (teacherData.courses) {
+            allCourses = [...allCourses, ...teacherData.courses];
+          }
+        }
+
+        // Fetch student count for each course
+        const studentsRef = collection(db, "students");
+        const studentsSnapshot = await getDocs(studentsRef);
+        studentCount = studentsSnapshot.docs.length;
+
+        setCourses(allCourses);
+        setTotalStudents(studentCount);
+      } catch (error) {
+        console.error("Error fetching courses:", error);
+      }
+    };
+
+    fetchCourses();
+  }, []);
+
+  const filterCourses = (status) => {
+    setActiveFilter(status);
+  };
+
   return (
-    <div className="dashboard-main-component">
-      <div className="graph-container">
-        <div className="single-graph">
-          <div className="graph-header">
-            <h3>Total logs</h3>
-            <div className="dropdown view-mode-dropdown">
-              <button className="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                View Mode
-              </button>
-              <ul className="dropdown-menu">
-                <li><button className="dropdown-item" onClick={() => setViewMode("daily")}>Daily</button></li>
-                <li><button className="dropdown-item" onClick={() => setViewMode("weekly")}>Weekly</button></li>
-                <li><button className="dropdown-item" onClick={() => setViewMode("monthly")}>Monthly</button></li>
-              </ul>
-            </div>
+    <div className="dashboard-main-wrapper">
+      <AsideBar />
+      <div className="dashboard-content">
+        {/* Header Stats */}
+        <div className="dashboard-stats">
+          <div className="stat-card">
+            <h3>{courses.length}</h3>
+            <p>TOTAL COURSES</p>
           </div>
-          <h3>{tableData.length}</h3>
-          <ReactApexChart
-            options={options}
-            series={options.series}
-            type="bar"
-            height={400}
-          />
+          <div className="stat-card">
+            <h3>{totalStudents}</h3>
+            <p>TOTAL STUDENTS</p>
+          </div>
+          <div className="stat-card">
+            <h3>83%</h3>
+            <p>TOTAL BOOK ACCESS</p>
+          </div>
+          <div className="stat-card">
+            <h3>16m 0s</h3>
+            <p>AVERAGE SESSION LENGTH</p>
+          </div>
         </div>
-        <div className="single-graph">
-          <h3>Total Alerts</h3>
-          <h3>{alertCount}</h3>
-          <ReactApexChart
-            options={pieChartOptions}
-            series={pieChartOptions.series}
-            type="pie"
-            height={400}
-          />
+
+        {/* Course Filters */}
+        <div className="course-filters">
+          <button 
+            className={`filter-btn ${activeFilter === 'active' ? 'active' : ''}`}
+            onClick={() => filterCourses('active')}
+          >
+            Active ({courses.length})
+          </button>
+          <button 
+            className={`filter-btn ${activeFilter === 'inactive' ? 'active' : ''}`}
+            onClick={() => filterCourses('inactive')}
+          >
+            Inactive (0)
+          </button>
+          <button 
+            className={`filter-btn ${activeFilter === 'all' ? 'active' : ''}`}
+            onClick={() => filterCourses('all')}
+          >
+            All ({courses.length})
+          </button>
         </div>
-      </div>
 
-      <div className="tables-starts">
-        <h3 className="my-3">Log Entries</h3>
-        <div className="table-wrapper">
-          <table className="table table-modern table-hover">
-            <thead>
-              <tr>
-                
-                <th scope="col">Time</th>
-                <th scope="col">Ip Address</th>
-                <th scope="col">Log</th>
-                <th scope="col">Browser</th>
-                <th scope="col">Teacher Name</th>
-                <th scope="col">Action</th>
-                <th scope="col">Type</th>
-                <th scope="col">Transaction Hash</th>
-              </tr>
-            </thead>
-            <tbody>
-              {tableData &&
-                tableData.length > 0 &&
-                tableData.slice().reverse().slice(showAllLogs ? 0 : 0, showAllLogs ? tableData.length : 5).map((item, i) => {
-                  const handleDownload = () => {
-                    if (item.data) {
-                      const data = JSON.stringify(item.data, null, 2);
-                      const blob = new Blob([data], { type: "text/plain" });
-                      const url = URL.createObjectURL(blob);
-                      const a = document.createElement("a");
-                      a.href = url;
-                      a.download = "test.log";
-                      document.body.appendChild(a);
-                      a.click();
-                      document.body.removeChild(a);
-                      URL.revokeObjectURL(url);
-                    }
-                  };
-
-                  return (
-                    <tr key={i}>
-                      
-                      <td>{item.timestamp}</td>
-                      <td>{item.ipAddress}</td>
-                      <td>
-                        {item.data ? (
-                          <button className="btn btn-success" onClick={handleDownload}>
-                            log
-                          </button>
-                        ) : (
-                          "-"
-                        )}
-                      </td>
-                      <td>{item.detectedBrowser}</td>
-                      <td>{item.teacherName}</td>
-                      <td>{item.action}</td>
-                      <td>{item?.type ? item.type : "-"}</td>
-                      <td className="transaction-hash">
-                        {transactionHash && transactionHash[item.tokenId] === undefined
-                          ? "-"
-                          : transactionHash && transactionHash[item.tokenId]}
-                      </td>
-                    </tr>
-                  );
-                })}
-            </tbody>
-          </table>
-          {!showAllLogs && tableData && tableData.length > 5 && (
-            <button className="btn btn-success" onClick={() => setShowAllLogs(true)}>
-              See More
-            </button>
-          )}
+        {/* Course Grid */}
+        <div className="course-grid">
+          {courses.map((course, index) => (
+            <div key={index} className="course-card">
+              <div className="course-header">
+                <h4>{course.courseID}</h4>
+                <p>{course.courseName}</p>
+              </div>
+              <div className="course-wave">
+                {/* Wave SVG or background */}
+              </div>
+              <div className="course-footer">
+                <div className="student-count">
+                  <i className="fas fa-users"></i>
+                  <span>{totalStudents} Students</span>
+                </div>
+                <div className="course-actions">
+                  <button className="action-btn">•••</button>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>
