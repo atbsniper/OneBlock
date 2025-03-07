@@ -13,7 +13,7 @@ function Dashboard() {
     chart: {
       type: "bar",
       toolbar: {
-        show: false, // Remove download functionality
+        show: false, // Remove download functionality...
       },
     },
     series: [
