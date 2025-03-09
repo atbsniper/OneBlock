@@ -216,15 +216,15 @@ const Dashboard = () => {
           
           <div className="dashboard-stats">
             <div className="stat-box">
-              <span className="stat-number">75%<i className="icon-user"></i></span>
+              <span className="stat-number" data-stat="attendance">75%</span>
               <span className="stat-label">Average Attendance</span>
             </div>
             <div className="stat-box">
-              <span className="stat-number">70/100 <i className="icon-lock"></i></span>
+              <span className="stat-number" data-stat="grade">70/100</span>
               <span className="stat-label">Average Grade</span>
             </div>
             <div className="stat-box">
-              <span className="stat-number">{totalStudents} <i className="icon-user"></i></span>
+              <span className="stat-number" data-stat="students">{totalStudents}</span>
               <span className="stat-label">TOTAL STUDENTS</span>
             </div>
           </div>
