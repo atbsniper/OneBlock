@@ -1,9 +1,42 @@
 .announcement-container {
   padding: 20px;
+  padding-bottom: 80px;
   max-width: 1200px;
   margin: 0 auto;
   position: relative;
   min-height: 100vh;
+}
+
+.back-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background-color: #f30000;
+  border: 1px solid #ffffff;
+  border-radius: 6px;
+  color: #ffffff;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+}
+
+.back-button:hover {
+  background-color: #5c8dbf;
+  border-color: #dee2e6;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.back-button svg {
+  width: 16px;
+  height: 16px;
 }
 
 .announcement-box {
@@ -38,7 +71,7 @@
   border: 1px solid #ddd;
   border-radius: 4px;
   font-size: 16px;
-  color: #333;
+  color: #ffffff;
 }
 
 .announcement-box button {
@@ -65,7 +98,7 @@
 
 .announcements-list h2 {
   margin-bottom: 30px;
-  color: #333;
+  color: #000000;
   text-align: center;
   font-size: 1.8em;
 }
