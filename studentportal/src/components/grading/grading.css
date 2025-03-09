@@ -1,5 +1,5 @@
 .grading-container {
-  padding: 20px;
+  padding: 30px;
   font-family: Arial, sans-serif;
   display: flex;
   flex-direction: column;
@@ -9,7 +9,7 @@
 .grading-container h2 {
   font-size: 24px;
   color: #0a0a0a;
-  margin-top: 40px;
+  margin-top: 0px;
   margin-bottom: 5px; /* Reduce space below h2 */
 }
 
@@ -19,7 +19,7 @@
   margin-top: 40px; /* Reduce space above h3 */
 }
 .grading-content {
-  width: 80%;
+  width: 100%;
   margin-top: 0px;
 }
 
@@ -38,7 +38,9 @@
 .grading-table td {
   padding: 12px 15px;
   text-align: center;
+  color: #000000;
   border: none;
+  
 }
 
 .grading-table th {
@@ -55,24 +57,25 @@
 }
 
 .grading-table tr:hover {
-  background-color: #e9ecef;
+  background-color: #7b9bbb;
 }
 
 .grading-table td.roll-number {
   font-weight: 600;
-  color: #495057;
+  color: #000000;
 }
 
 .grading-table td.student-name {
   text-align: left;
   font-weight: 500;
-  color: #343a40;
+  color: #000000;
 }
 
 .grading-table input[type="text"],
 .grading-table input[type="number"] {
   width: 50px;
   padding: 8px;
+  color: #000000;
   text-align: center;
   border: 1px solid #ced4da;
   border-radius: 4px;
@@ -103,7 +106,7 @@
   width: 100%; 
   padding: 7px;
   box-sizing: border-box;
-  color: rgb(0, 0, 0);
+  color:    rgb(0, 0, 0);
   text-align: center; 
   background-color: #ffffff; 
   border: 1px solid #ffffff;
@@ -119,6 +122,7 @@
   padding: 10px 20px;
   background-color: #4caf50;
   color: white;
+  margin-bottom: 20px;
   border-radius: 4px;
   cursor: pointer;
 }
@@ -174,7 +178,7 @@
 }
 
 .grade-section {
-  background-color: #e9ecef;
+  background-color: #304151;
   font-weight: 600;
 }
 
