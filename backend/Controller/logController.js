@@ -137,40 +137,51 @@ exports.uploadLogs = async (req, res, next) => {
       signedTx.rawTransaction
     );
 
-    // Increment counter and save transaction hash
+    // Modified counter and transaction hash handling
     const counterRef = doc(db, "counters", "counterDoc");
+    const maxRetries = 3;
+    let retryCount = 0;
+    let success = false;
 
-    try {
-      await runTransaction(db, async (transaction) => {
-        const counterDoc = await transaction.get(counterRef);
-        let newCount;
+    while (retryCount < maxRetries && !success) {
+      try {
+        await runTransaction(db, async (transaction) => {
+          const counterDoc = await transaction.get(counterRef);
+          let newCount;
 
-        if (!counterDoc.exists()) {
-          // Initialize counter to 0 if it does not exist
-          newCount = 0;
-          transaction.set(counterRef, { count: newCount });
-        } else {
-          newCount = counterDoc.data().count + 1;
-          transaction.update(counterRef, { count: newCount });
-        }
+          if (!counterDoc.exists()) {
+            // Get the latest transaction count from the "transactionHashes" collection
+            const hashesSnapshot = await getDocs(collection(db, "transactionHashes"));
+            newCount = hashesSnapshot.size;
+            transaction.set(counterRef, { count: newCount });
+          } else {
+            newCount = counterDoc.data().count + 1;
+            transaction.update(counterRef, { count: newCount });
+          }
 
-        // Save transaction hash with the new counter value
-        const hashRef = doc(db, "transactionHashes", newCount.toString());
-        transaction.set(hashRef, {
-          transactionHash: receipt.transactionHash,
-          type: type,
-          action: action,
+          // Save transaction hash with the new counter value
+          const hashRef = doc(db, "transactionHashes", newCount.toString());
+          transaction.set(hashRef, {
+            transactionHash: receipt.transactionHash,
+            type: type,
+            action: action,
+            timestamp: Timestamp.now(),
+          });
         });
-      });
 
-      console.log(
-        "Counter incremented and transaction hash saved successfully"
-      );
-    } catch (e) {
-      console.error(
-        "Error incrementing counter and saving transaction hash: ",
-        e
-      );
+        success = true;
+        console.log("Counter incremented and transaction hash saved successfully");
+      } catch (e) {
+        retryCount++;
+        console.error(`Retry ${retryCount}/${maxRetries} failed:`, e);
+        
+        if (retryCount === maxRetries) {
+          throw new Error("Failed to save transaction after maximum retries");
+        }
+        
+        // Wait for a short time before retrying
+        await new Promise(resolve => setTimeout(resolve, 1000));
+      }
     }
 
     res.status(200).json({
@@ -179,8 +190,12 @@ exports.uploadLogs = async (req, res, next) => {
       logs: logs,
     });
 
-    console.log("Transaction hash number:", receipt.transactionHash);
   } catch (error) {
-    console.log("Error sending transaction:", error.message);
+    console.error("Error in uploadLogs:", error);
+    res.status(500).json({
+      status: "error",
+      message: error.message
+    });
   }
 };
+

@@ -399,7 +399,7 @@ function Alerts() {
   }, [tableData]);
 
   const getLogs = async () => {
-    const url2 = `${import.meta.env.VITE_BASE_URL}/LogGard/getLogs`;
+    const url2 = `${import.meta.env.VITE_BASE_URL_LIVE}/LogGard/getLogs`;
     console.log(url2);
     await axios
       .get(url2)
@@ -887,7 +887,7 @@ function Dashboard() {
   const [transactionHash, setTransactionHash] = useState({});
 
   const getLogs = async () => {
-    const url2 = `${import.meta.env.VITE_BASE_URL}/LogGard/getLogs`;
+    const url2 = `${import.meta.env.VITE_BASE_URL_LIVE}/LogGard/getLogs`;
     await axios
       .get(url2)
       .then((response) => {
@@ -1409,7 +1409,7 @@ function Dashboard() {
   const [transactionHash, setTransactionHash] = useState({});
 
   const getLogs = async () => {
-    const url2 = `${import.meta.env.VITE_BASE_URL}/LogGard/getLogs`;
+    const url2 = `${import.meta.env.VITE_BASE_URL_LIVE}/LogGard/getLogs`;
     await axios
       .get(url2)
       .then((response) => {
@@ -1951,7 +1951,7 @@ function Alerts() {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_BASE_URL}/LogGard/getLogs`
+          `${import.meta.env.VITE_BASE_URL_LIVE}/LogGard/getLogs`
         );
         const parsedData = response.data.logs.map((item) => {
           const parsedItem = JSON.parse(item.uri);
@@ -2567,7 +2567,7 @@ function Alerts() {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_BASE_URL}/LogGard/getLogs`
+          `${import.meta.env.VITE_BASE_URL_LIVE}/LogGard/getLogs`
         );
         const parsedData = response.data.logs.map((item) => {
           const parsedItem = JSON.parse(item.uri);
@@ -3460,7 +3460,7 @@ function Alerts() {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_BASE_URL}/LogGard/getLogs`
+          `${import.meta.env.VITE_BASE_URL_LIVE}/LogGard/getLogs`
         );
         const parsedData = response.data.logs.map((item) => {
           const parsedItem = JSON.parse(item.uri);
@@ -4132,7 +4132,7 @@ function Alerts() {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_BASE_URL}/LogGard/getLogs`
+          `${import.meta.env.VITE_BASE_URL_LIVE}/LogGard/getLogs`
         );
         const parsedData = response.data.logs.map((item) => {
           const parsedItem = JSON.parse(item.uri);
@@ -4745,7 +4745,7 @@ function Alerts() {
   }, [alerts, teacherFilter, typeFilter]);
 
   const getLogs = async () => {
-    const url2 = `${import.meta.env.VITE_BASE_URL}/LogGard/getLogs`;
+    const url2 = `${import.meta.env.VITE_BASE_URL_LIVE}/LogGard/getLogs`;
     await axios
       .get(url2)
       .then((response) => {
@@ -5178,6 +5178,7 @@ export const getAdmin = async () => {
 }
 
 ```
+
 
 # src\main.jsx
 

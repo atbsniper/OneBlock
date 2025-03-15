@@ -121,7 +121,7 @@ function Alerts() {
   }, [alerts, teacherFilter, typeFilter]);
 
   const getLogs = async () => {
-    const url2 = `${import.meta.env.VITE_BASE_URL}/LogGard/getLogs`;
+    const url2 = `${import.meta.env.VITE_BASE_URL_LIVE}/LogGard/getLogs`;
     await axios
       .get(url2)
       .then((response) => {
