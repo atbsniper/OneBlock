@@ -175,8 +175,7 @@ function Alerts() {
       <div className="tables-starts">
         <h3 className="my-3">Alert Descriptions</h3>
         <div className="table-wrapper">
-          {currentAlerts &&
-            currentAlerts.length > 0 &&
+          {currentAlerts && currentAlerts.length > 0 ? (
             currentAlerts.map((item, i) => {
               const handleDownload = () => {
                 if (item.data) {
@@ -185,7 +184,7 @@ function Alerts() {
                   const url = URL.createObjectURL(blob);
                   const a = document.createElement("a");
                   a.href = url;
-                  a.download = "test.log";
+                  a.download = "alert_data.log";
                   document.body.appendChild(a);
                   a.click();
                   document.body.removeChild(a);
@@ -200,7 +199,7 @@ function Alerts() {
                   const url = URL.createObjectURL(blob);
                   const a = document.createElement("a");
                   a.href = url;
-                  a.download = "test.log";
+                  a.download = "alert_previous_data.log";
                   document.body.appendChild(a);
                   a.click();
                   document.body.removeChild(a);
@@ -209,42 +208,62 @@ function Alerts() {
               };
 
               return (
-                <div key={i}>
-                  <p className="mt-0 mb-0 single-alert" style={{ fontWeight: 600 }}>
-                    {indexOfFirstAlert + i + 1}
-                    {": "}
-                    <span className="font-bold">{item.teacherName}</span> with {item.ipAddress} (IP address) Changed the data from
-                    {item.prevData ? (
-                      <button className="btn btn-success m-3" onClick={handleDownload2}>
-                        previous
-                      </button>
-                    ) : (
-                      "-"
-                    )}
-                    with previous transaction hash:{" "}
-                    <span className="transaction-hash">
-                      {transactionHash && transactionHash[item.tokenId - 1] == undefined
-                        ? "-"
-                        : transactionHash && transactionHash[item.tokenId - 1]}{" "}
-                    </span>
-                    to new data
-                    {item.data ? (
-                      <button className="btn btn-success m-3" onClick={handleDownload}>
-                        new
-                      </button>
-                    ) : (
-                      "-"
-                    )}
-                    with new transaction hash:{" "}
-                    <span className="transaction-hash">
-                      {transactionHash && transactionHash[item.tokenId] == undefined
-                        ? "-"
-                        : transactionHash && transactionHash[item.tokenId]}
-                    </span>
-                  </p>
+                <div key={i} className="single-alert">
+                  <div className="alert-header">
+                    <span className="alert-number">{indexOfFirstAlert + i + 1}: </span>
+                    <span className="font-bold">{item.teacherName}</span> 
+                    <span className="ip-address">with {item.ipAddress} (IP address)</span>
+                  </div>
+                  
+                  <div className="alert-content">
+                    <div className="alert-section">
+                      <span className="alert-label">Changed the data from:</span>
+                      {item.prevData ? (
+                        <button className="btn btn-success" onClick={handleDownload2}>
+                          Previous
+                        </button>
+                      ) : (
+                        <span className="no-data">-</span>
+                      )}
+                    </div>
+                    
+                    <div className="alert-section">
+                      <span className="alert-label">Previous transaction hash:</span>
+                      <span className="transaction-hash">
+                        {transactionHash && transactionHash[item.tokenId - 1] == undefined
+                          ? "-"
+                          : transactionHash && transactionHash[item.tokenId - 1]}
+                      </span>
+                    </div>
+                    
+                    <div className="alert-section">
+                      <span className="alert-label">To new data:</span>
+                      {item.data ? (
+                        <button className="btn btn-success" onClick={handleDownload}>
+                          New
+                        </button>
+                      ) : (
+                        <span className="no-data">-</span>
+                      )}
+                    </div>
+                    
+                    <div className="alert-section">
+                      <span className="alert-label">New transaction hash:</span>
+                      <span className="transaction-hash">
+                        {transactionHash && transactionHash[item.tokenId] == undefined
+                          ? "-"
+                          : transactionHash && transactionHash[item.tokenId]}
+                      </span>
+                    </div>
+                  </div>
                 </div>
               );
-            })}
+            })
+          ) : (
+            <div className="no-alerts">
+              <p>No alerts found</p>
+            </div>
+          )}
         </div>
         {alerts && alerts.length > alertsPerPage && (
           <nav className="pagination-nav">
