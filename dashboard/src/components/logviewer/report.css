@@ -224,34 +224,150 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
 }
 
 .report-modal-content {
     background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    width: 80%;
-    max-width: 600px;
-    max-height: 80%;
+    padding: 30px;
+    border-radius: 12px;
+    width: 95%;
+    max-width: 1200px;
+    max-height: 90%;
     overflow-y: auto;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    position: relative;
 }
 
 .report-close {
     position: absolute;
-    top: 10px;
+    top: 15px;
     right: 20px;
-    font-size: 30px;
+    font-size: 28px;
     cursor: pointer;
+    color: #555;
+    background: #f1f1f1;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.report-close:hover {
+    background: #e0e0e0;
+    color: #000;
+}
+
+/* Report styling within modal */
+.report-modal h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 15px;
+    font-size: 24px;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 10px;
+}
+
+.report-modal h3 {
+    text-align: center;
+    color: #555;
+    margin-bottom: 20px;
+    font-size: 18px;
 }
 
 .report-modal-bold {
-    font-weight: bold;
+    font-weight: 600;
+    color: #333;
+    margin: 5px 0;
+    font-size: 14px;
 }
 
 .report-modal-footer {
-    padding: 16px 25px 40px 25px;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+.report-modal-footer p {
+    font-size: 13px;
+    color: #666;
+    margin: 5px 0;
+}
+
+/* Improved table within modal */
+.report-modal .report-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
+    overflow: hidden;
+    table-layout: auto;
+}
+
+.report-modal .report-table-wrapper {
+    overflow-x: auto;
+    margin-left: 0;
+    width: 100%;
+}
+
+.report-modal .report-table th {
+    background-color: #3498db;
+    color: white;
+    font-weight: 600;
+    text-align: left;
+    padding: 12px 15px;
+    font-size: 14px;
+    border: none;
+    white-space: nowrap;
+}
+
+.report-modal .report-table td {
+    padding: 10px 15px;
+    border-bottom: 1px solid #eeeeee;
+    font-size: 14px;
+    color: #333;
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+}
+
+.report-modal .report-table tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+.report-modal .report-table tr:hover td {
+    background-color: #f1f8ff;
+}
+
+/* Print button */
+.report-modal .report-btn-success {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    display: block;
+    margin: 15px auto;
+    transition: background-color 0.2s;
+}
+
+.report-modal .report-btn-success:hover {
+    background-color: #2980b9;
+}
+
+/* Report pre tag styling */
+.report-modal pre {
+    font-family: inherit;
+    white-space: normal;
 }
 
 /* Pagination styling */
@@ -295,5 +411,228 @@
 
     .report-filters input {
         margin-bottom: 10px;
+    }
+}
+
+/* Print container styles */
+.report-print-container {
+    margin: 0 auto;
+    padding: 20px 40px;
+    max-width: 100%;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    overflow-x: auto;
+}
+
+/* Enhance modal styles for printing */
+@media print {
+    body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+    
+    .report-print-container {
+        box-shadow: none;
+        padding: 5px;
+        margin: 0;
+        width: 100%;
+        max-width: 100%;
+        font-size: 9px;
+        transform: scale(0.9);
+        transform-origin: top left;
+    }
+    
+    .report-modal h2 {
+        font-size: 14px;
+        margin-bottom: 5px;
+        padding-bottom: 3px;
+    }
+    
+    .report-modal h3 {
+        font-size: 12px;
+        margin-bottom: 5px;
+    }
+    
+    .report-modal-bold {
+        font-size: 9px;
+        margin: 2px 0;
+    }
+    
+    .report-modal .report-table {
+        width: 100% !important;
+        border: 1px solid #ddd;
+        font-size: 8px !important;
+        table-layout: auto !important;
+        page-break-inside: avoid;
+        border-collapse: collapse;
+        margin: 5px 0;
+    }
+    
+    .report-modal .report-table th {
+        background-color: #f1f1f1 !important;
+        color: #333 !important;
+        padding: 2px !important;
+        font-size: 8px !important;
+        white-space: normal !important;
+        font-weight: bold !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+    
+    .report-modal .report-table td {
+        padding: 2px !important;
+        font-size: 8px !important;
+        word-wrap: break-word !important;
+        white-space: normal !important;
+        max-width: none !important;
+    }
+    
+    .report-modal .report-table-wrapper {
+        overflow: visible !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+    
+    .report-modal-footer {
+        margin-top: 5px;
+        padding-top: 3px;
+    }
+    
+    .report-modal-footer p {
+        font-size: 8px;
+        margin: 1px 0;
+    }
+    
+    .report-modal .report-btn-success,
+    .report-close {
+        display: none !important;
+    }
+    
+    .report-modal-content {
+        box-shadow: none !important;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: auto;
+        overflow: visible;
+        padding: 10px;
+    }
+    
+    /* Ensure all content is visible */
+    .report-modal {
+        position: absolute;
+        height: auto;
+        width: 100%;
+        overflow: visible;
+        background: white !important;
+    }
+    
+    .report-modal-body {
+        width: 100%;
+    }
+    
+    /* Hide unnecessary elements */
+    .report-dashboard-main-wrapper > *:not(.report-modal) {
+        display: none !important;
+    }
+    
+    /* Set page size and orientation */
+    @page {
+        size: A4 landscape;
+        margin: 0.3cm;
+        scale: 90%;
+    }
+    
+    /* Remove column width constraints */
+    .report-modal .report-table th,
+    .report-modal .report-table td {
+        width: auto !important;
+    }
+    
+    /* Minimize table cell padding */
+    .report-modal .report-table th,
+    .report-modal .report-table td {
+        padding: 2px !important;
+    }
+    
+    /* Make sure text fits in cells */
+    .report-modal .report-table td {
+        overflow-wrap: break-word;
+        word-break: break-all;
+    }
+    
+    /* Font sizing based on column count */
+    table[data-print-table][data-columns="3"] th,
+    table[data-print-table][data-columns="3"] td,
+    table[data-print-table][data-columns="4"] th,
+    table[data-print-table][data-columns="4"] td {
+        font-size: 9px !important;
+    }
+    
+    table[data-print-table][data-columns="5"] th,
+    table[data-print-table][data-columns="5"] td,
+    table[data-print-table][data-columns="6"] th,
+    table[data-print-table][data-columns="6"] td {
+        font-size: 8px !important;
+    }
+    
+    table[data-print-table][data-columns="7"] th,
+    table[data-print-table][data-columns="7"] td,
+    table[data-print-table][data-columns="8"] th,
+    table[data-print-table][data-columns="8"] td {
+        font-size: 7px !important;
+    }
+    
+    table[data-print-table][data-columns="9"] th,
+    table[data-print-table][data-columns="9"] td,
+    table[data-print-table][data-columns="10"] th,
+    table[data-print-table][data-columns="10"] td,
+    table[data-print-table][data-columns="11"] th,
+    table[data-print-table][data-columns="11"] td {
+        font-size: 6px !important;
+        padding: 1px !important;
+    }
+}
+
+/* Special table style for printable reports */
+table[data-print-table] {
+    width: 100%;
+    table-layout: auto;
+    border-collapse: collapse;
+    font-size: 12px;
+}
+
+table[data-print-table] th,
+table[data-print-table] td {
+    padding: 4px;
+    text-align: left;
+    border: 1px solid #ddd;
+    white-space: normal;
+    word-break: normal;
+}
+
+table[data-print-table] th {
+    background-color: #f1f1f1;
+    font-weight: bold;
+    color: #333;
+}
+
+@media print {
+    table[data-print-table] {
+        width: 100% !important;
+        font-size: 8px !important;
+        margin: 0 !important;
+        page-break-inside: avoid;
+    }
+    
+    table[data-print-table] th,
+    table[data-print-table] td {
+        padding: 2px !important;
+        border: 0.5px solid #ddd !important;
     }
 }

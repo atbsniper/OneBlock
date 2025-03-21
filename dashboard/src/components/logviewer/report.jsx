@@ -228,104 +228,99 @@ function Alerts() {
   const handleViewGradeData = (item) => {
     if (item.data && item.prevData) {
       const changedData = getChangedGrade(item.data, item.prevData);
-      const filteredData1 = Object.keys(changedData);
-
       const columnsToDisplay = {
-        mid: false,
-        assignment: false,
-        quiz: false,
-        final: false,
+        mid: Object.values(changedData).some(
+          (item) => item.old?.mid !== undefined || item.new?.mid !== undefined
+        ),
+        assignment: Object.values(changedData).some(
+          (item) => item.old?.assignment?.length || item.new?.assignment?.length
+        ),
+        quiz: Object.values(changedData).some(
+          (item) => item.old?.quiz?.length || item.new?.quiz?.length
+        ),
+        final: Object.values(changedData).some(
+          (item) => item.old?.final !== undefined || item.new?.final !== undefined
+        ),
       };
 
-      filteredData1.forEach((key) => {
-        if (changedData[key]?.old?.mid || changedData[key]?.new?.mid)
-          columnsToDisplay.mid = true;
-        if (
-          changedData[key]?.old?.assignment?.some((a) => a) ||
-          changedData[key]?.new?.assignment?.some((a) => a)
-        )
-          columnsToDisplay.assignment = true;
-        if (
-          changedData[key]?.old?.quiz?.some((q) => q) ||
-          changedData[key]?.new?.quiz?.some((q) => q)
-        )
-          columnsToDisplay.quiz = true;
-        if (changedData[key]?.old?.final || changedData[key]?.new?.final)
-          columnsToDisplay.final = true;
-      });
+      const columnCount = 1 + 
+        (columnsToDisplay.mid ? 2 : 0) + 
+        (columnsToDisplay.assignment ? 2 : 0) + 
+        (columnsToDisplay.quiz ? 2 : 0) + 
+        (columnsToDisplay.final ? 2 : 0);
 
       setModalData(
         <div>
-          <div ref={componentRef} style={{ marginLeft: "50px", marginRight: "50px" }}>
-            <h2 style={{ textAlign: "center" }}>Grade Data Report</h2>
-            <h3 style={{ textAlign: "center" }}>Detailed Grade Changes</h3>
+          <div ref={componentRef} className="report-print-container">
+            <h2>Grade Data Report</h2>
+            <h3>Detailed Grade Changes</h3>
             <p className="report-modal-bold">Teacher Name: {item.teacherName}</p>
             <p className="report-modal-bold">Action: {item.action}</p>
             <p className="report-modal-bold">Report Date: {new Date().toLocaleDateString()}</p>
-            <table className="report-table" style={{ width: "100%", borderCollapse: "collapse" }}>
-              <thead>
-                <tr>
-                  <th style={{ border: "1px solid black", padding: "8px" }}>#</th>
-                  <th style={{ border: "1px solid black", padding: "8px" }}>Student ID</th>
-                  {columnsToDisplay.mid && (
-                    <>
-                      <th style={{ border: "1px solid black", padding: "8px" }}>Midterm (Old)</th>
-                      <th style={{ border: "1px solid black", padding: "8px" }}>Midterm (New)</th>
-                    </>
-                  )}
-                  {columnsToDisplay.assignment && (
-                    <>
-                      <th style={{ border: "1px solid black", padding: "8px" }}>Assignments (Old)</th>
-                      <th style={{ border: "1px solid black", padding: "8px" }}>Assignments (New)</th>
-                    </>
-                  )}
-                  {columnsToDisplay.quiz && (
-                    <>
-                      <th style={{ border: "1px solid black", padding: "8px" }}>Quizzes (Old)</th>
-                      <th style={{ border: "1px solid black", padding: "8px" }}>Quizzes (New)</th>
-                    </>
-                  )}
-                  {columnsToDisplay.final && (
-                    <>
-                      <th style={{ border: "1px solid black", padding: "8px" }}>Final (Old)</th>
-                      <th style={{ border: "1px solid black", padding: "8px" }}>Final (New)</th>
-                    </>
-                  )}
-                </tr>
-              </thead>
-              <tbody>
-                {filteredData1.map((key, index) => (
-                  <tr key={key}>
-                    <td style={{ border: "1px solid black", padding: "8px" }}>{index + 1}</td>
-                    <td style={{ border: "1px solid black", padding: "8px" }}>{key}</td>
+            <div className="report-table-wrapper">
+              <table className="report-table" data-print-table data-columns={columnCount}>
+                <thead>
+                  <tr>
+                    <th>Roll Number</th>
                     {columnsToDisplay.mid && (
                       <>
-                        <td style={{ border: "1px solid black", padding: "8px" }}>{changedData[key]?.old?.mid ?? ''}</td>
-                        <td style={{ border: "1px solid black", padding: "8px" }}>{changedData[key]?.new?.mid ?? ''}</td>
+                        <th>Old Mid</th>
+                        <th>New Mid</th>
                       </>
                     )}
                     {columnsToDisplay.assignment && (
                       <>
-                        <td style={{ border: "1px solid black", padding: "8px" }}>{changedData[key]?.old?.assignment?.join(", ") ?? ''}</td>
-                        <td style={{ border: "1px solid black", padding: "8px" }}>{changedData[key]?.new?.assignment?.join(", ") ?? ''}</td>
+                        <th>Old Assignment</th>
+                        <th>New Assignment</th>
                       </>
                     )}
                     {columnsToDisplay.quiz && (
                       <>
-                        <td style={{ border: "1px solid black", padding: "8px" }}>{changedData[key]?.old?.quiz?.join(", ") ?? ''}</td>
-                        <td style={{ border: "1px solid black", padding: "8px" }}>{changedData[key]?.new?.quiz?.join(", ") ?? ''}</td>
+                        <th>Old Quiz</th>
+                        <th>New Quiz</th>
                       </>
                     )}
                     {columnsToDisplay.final && (
                       <>
-                        <td style={{ border: "1px solid black", padding: "8px" }}>{changedData[key]?.old?.final ?? ''}</td>
-                        <td style={{ border: "1px solid black", padding: "8px" }}>{changedData[key]?.new?.final ?? ''}</td>
+                        <th>Old Final</th>
+                        <th>New Final</th>
                       </>
                     )}
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {Object.keys(changedData).map((key) => (
+                    <tr key={key}>
+                      <td>{key}</td>
+                      {columnsToDisplay.mid && (
+                        <>
+                          <td>{changedData[key]?.old?.mid ?? ''}</td>
+                          <td>{changedData[key]?.new?.mid ?? ''}</td>
+                        </>
+                      )}
+                      {columnsToDisplay.assignment && (
+                        <>
+                          <td>{changedData[key]?.old?.assignment?.join(", ") ?? ''}</td>
+                          <td>{changedData[key]?.new?.assignment?.join(", ") ?? ''}</td>
+                        </>
+                      )}
+                      {columnsToDisplay.quiz && (
+                        <>
+                          <td>{changedData[key]?.old?.quiz?.join(", ") ?? ''}</td>
+                          <td>{changedData[key]?.new?.quiz?.join(", ") ?? ''}</td>
+                        </>
+                      )}
+                      {columnsToDisplay.final && (
+                        <>
+                          <td>{changedData[key]?.old?.final ?? ''}</td>
+                          <td>{changedData[key]?.new?.final ?? ''}</td>
+                        </>
+                      )}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
             <div className="report-modal-footer">
               <p className="report-modal-bold">1: The report is based on the instructor action.</p>
               <p className="report-modal-bold">2: For Feedback: PH No. 0523-2342343</p>
@@ -333,8 +328,25 @@ function Alerts() {
             </div>
           </div>
           <ReactToPrint
-            trigger={() => <button className="report-btn report-btn-success" onClick={handlePrint} style={{ marginTop: "16px" }}>Print</button>}
+            trigger={() => <button className="report-btn report-btn-success">Print</button>}
             content={() => componentRef.current}
+            pageStyle={`
+              @page {
+                size: landscape;
+                margin: 5mm;
+              }
+              @media print {
+                body {
+                  -webkit-print-color-adjust: exact;
+                  print-color-adjust: exact;
+                }
+                table { width: 100% !important; }
+                th, td { 
+                  padding: 2px !important;
+                  font-size: 8px !important;
+                }
+              }
+            `}
           />
         </div>
       );
@@ -350,34 +362,36 @@ function Alerts() {
 
       setModalData(
         <div>
-          <div ref={componentRef} style={{ marginLeft: "50px", marginRight: "50px" }}>
-            <h2 style={{ textAlign: "center" }}>Attendance Data Report</h2>
-            <h3 style={{ textAlign: "center" }}>Detailed Attendance Changes</h3>
+          <div ref={componentRef} className="report-print-container">
+            <h2>Attendance Data Report</h2>
+            <h3>Detailed Attendance Changes</h3>
             <p className="report-modal-bold">Teacher Name: {item.teacherName}</p>
             <p className="report-modal-bold">Action: {item.action}</p>
             <p className="report-modal-bold">Report Date: {new Date().toLocaleDateString()}</p>
-            <table className="report-table" style={{ width: "100%", borderCollapse: "collapse" }}>
-              <thead>
-                <tr>
-                  <th style={{ border: "1px solid black", padding: "8px" }}>#</th>
-                  <th style={{ border: "1px solid black", padding: "8px" }}>Roll Number</th>
-                  <th style={{ border: "1px solid black", padding: "8px" }}>Name</th>
-                  <th style={{ border: "1px solid black", padding: "8px" }}>Old Present Status</th>
-                  <th style={{ border: "1px solid black", padding: "8px" }}>New Present Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredData1.map((key, index) => (
-                  <tr key={key}>
-                    <td style={{ border: "1px solid black", padding: "8px" }}>{index + 1}</td>
-                    <td style={{ border: "1px solid black", padding: "8px" }}>{key}</td>
-                    <td style={{ border: "1px solid black", padding: "8px" }}>{filteredData[key].new.name}</td>
-                    <td style={{ border: "1px solid black", padding: "8px" }}>{filteredData[key].old.isPresent.toString()}</td>
-                    <td style={{ border: "1px solid black", padding: "8px" }}>{filteredData[key].new.isPresent.toString()}</td>
+            <div className="report-table-wrapper">
+              <table className="report-table" data-print-table data-columns="5">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Roll Number</th>
+                    <th>Name</th>
+                    <th>Old Present Status</th>
+                    <th>New Present Status</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {filteredData1.map((key, index) => (
+                    <tr key={key}>
+                      <td>{index + 1}</td>
+                      <td>{key}</td>
+                      <td>{filteredData[key].new.name}</td>
+                      <td>{filteredData[key].old.isPresent.toString()}</td>
+                      <td>{filteredData[key].new.isPresent.toString()}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
             <div className="report-modal-footer">
               <p className="report-modal-bold">1: The report is based on the instructor action.</p>
               <p className="report-modal-bold">2: For Feedback: PH No. 0523-2342343</p>
@@ -385,8 +399,25 @@ function Alerts() {
             </div>
           </div>
           <ReactToPrint
-            trigger={() => <button className="report-btn report-btn-success" onClick={handlePrint} style={{ marginTop: "16px" }}>Print</button>}
+            trigger={() => <button className="report-btn report-btn-success">Print</button>}
             content={() => componentRef.current}
+            pageStyle={`
+              @page {
+                size: landscape;
+                margin: 5mm;
+              }
+              @media print {
+                body {
+                  -webkit-print-color-adjust: exact;
+                  print-color-adjust: exact;
+                }
+                table { width: 100% !important; }
+                th, td { 
+                  padding: 2px !important;
+                  font-size: 8px !important;
+                }
+              }
+            `}
           />
         </div>
       );
@@ -663,7 +694,9 @@ function Alerts() {
             <span className="report-close" onClick={() => setModalVisible(false)}>
               &times;
             </span>
-            <pre>{modalData}</pre>
+            <div className="report-modal-body">
+              {modalData}
+            </div>
           </div>
         </div>
       )}
