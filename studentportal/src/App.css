@@ -40,3 +40,22 @@
 .read-the-docs {
   color: #888;
 }
+
+#fixed-back-btn {
+  background-color: #f30000 !important;
+  color: #fff !important;
+  padding: 12px 30px !important;
+  border: none !important;
+  border-radius: 5px !important;
+  cursor: pointer !important;
+  font-weight: bold !important;
+  position: fixed !important;
+  bottom: 30px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  z-index: 9999 !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
+  width: auto !important;
+  display: block !important;
+  margin: 0 !important;
+}

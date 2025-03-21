@@ -327,9 +327,9 @@ const Attendance = () => {
         >
           {loading ? "Loading..." : "Save Attendance"}
         </button>
-        <button onClick={handleBack} className="back-button">
-          Back
-        </button>
+        <div className="logout-container">
+          <button onClick={handleBack}>Back</button>
+        </div>
       </div>
     </div>
   );

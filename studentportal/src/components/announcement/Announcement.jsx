@@ -160,12 +160,9 @@ const Announcement = () => {
         <Banner />
         <div className="announcement-container">
           <div className="error-message">Please log in to view announcements</div>
-          <button onClick={handleBack} className="back-button">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-            </svg>
-            Back to Dashboard
-          </button>
+          <div className="logout-container">
+            <button onClick={handleBack}>Back to Dashboard</button>
+          </div>
         </div>
       </div>
     );
@@ -183,12 +180,9 @@ const Announcement = () => {
             )}
           </div>
           {renderAnnouncementForm()}
-          <button onClick={handleBack} className="back-button">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-            </svg>
-            Back to Dashboard
-          </button>
+          <div className="logout-container">
+            <button onClick={handleBack}>Back to Dashboard</button>
+          </div>
         </div>
       </div>
     );
@@ -200,12 +194,9 @@ const Announcement = () => {
         <Banner />
         <div className="announcement-container">
           <div className="loading">Loading announcements for {courseName || id}...</div>
-          <button onClick={handleBack} className="back-button">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-            </svg>
-            Back to Dashboard
-          </button>
+          <div className="logout-container">
+            <button onClick={handleBack}>Back to Dashboard</button>
+          </div>
         </div>
       </div>
     );
@@ -233,12 +224,9 @@ const Announcement = () => {
             </div>
           )}
         </div>
-        <button onClick={handleBack} className="back-button">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-          </svg>
-          Back to Dashboard
-        </button>
+        <div className="logout-container">
+          <button onClick={handleBack}>Back to Dashboard</button>
+        </div>
       </div>
     </div>
   );
