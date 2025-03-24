@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "./dashboard.css";
 import ReactApexChart from "react-apexcharts";
 import axios from "axios";
@@ -6,6 +6,7 @@ import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../firebase/firebaseConfig";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import { Toast, ToastContainer } from "react-bootstrap";
 
 function Dashboard() {
   const [viewMode, setViewMode] = useState("daily");
@@ -29,6 +30,8 @@ function Dashboard() {
 
   const [showAllLogs, setShowAllLogs] = useState(false);
   const [tableData, setTableData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
+  const [filterBy, setFilterBy] = useState("all");
   const [pieChartOptions, setPieChartOptions] = useState({
     chart: {
       type: "pie",
@@ -38,6 +41,33 @@ function Dashboard() {
   });
   const [alertCount, setAlertCount] = useState(0);
   const [transactionHash, setTransactionHash] = useState({});
+  
+  // For toast notifications
+  const [notifications, setNotifications] = useState([]);
+  const isFirstRender = useRef(true);
+  const previousAlertIds = useRef(new Set());
+
+  // Helper function to check if a date is today
+  const isToday = (dateString) => {
+    const today = new Date();
+    const date = new Date(dateString);
+    return date.getDate() === today.getDate() &&
+           date.getMonth() === today.getMonth() &&
+           date.getFullYear() === today.getFullYear();
+  };
+
+  // Function to show a notification for a new alert
+  const showAlertNotification = (alert) => {
+    const newNotification = {
+      id: Date.now() + Math.random().toString(36).substring(2, 9),
+      title: "New Alert",
+      message: `Alert from ${alert.teacherName || 'unknown'} at ${alert.timestamp}`,
+      data: alert,
+      show: true
+    };
+    
+    setNotifications(prev => [...prev, newNotification]);
+  };
 
   const getLogs = async () => {
     const url2 = `${import.meta.env.VITE_BASE_URL_LIVE}/LogGard/getLogs`;
@@ -56,16 +86,102 @@ function Dashboard() {
             tokenId: item.tokenId,
           };
         });
+        
         setTableData(parsedData);
+        setFilteredData(parsedData);
       })
       .catch((error) => {
         console.log(error);
       });
   };
 
+  // Function to filter data based on selected option
+  const filterData = (filterOption) => {
+    setFilterBy(filterOption);
+    
+    if (filterOption === "all") {
+      setFilteredData(tableData);
+    } else if (filterOption === "alert") {
+      setFilteredData(tableData.filter(item => item.type === "alert"));
+    } else if (filterOption === "attendence") {
+      setFilteredData(tableData.filter(item => item.action === "attendence"));
+    } else if (filterOption === "grading") {
+      setFilteredData(tableData.filter(item => item.action === "grading"));
+    }
+  };
+
+  // Initial data fetch
   useEffect(() => {
     getLogs();
+    
+    // Set up polling to check for new data every 15 seconds
+    const interval = setInterval(() => {
+      getLogs();
+    }, 15000);
+    
+    return () => clearInterval(interval);
   }, []);
+
+  // Detect new alerts and show notifications
+  useEffect(() => {
+    // Skip the first render
+    if (isFirstRender.current) {
+      // Initialize the set of alert IDs from the initial data
+      const currentAlertIds = new Set();
+      tableData.forEach(item => {
+        if (item.type === "alert") {
+          currentAlertIds.add(item.tokenId);
+        }
+      });
+      previousAlertIds.current = currentAlertIds;
+      isFirstRender.current = false;
+      return;
+    }
+    
+    // Find new alerts by comparing with previous alerts
+    const currentAlertIds = new Set();
+    const newAlerts = [];
+    
+    tableData.forEach(item => {
+      if (item.type === "alert") {
+        currentAlertIds.add(item.tokenId);
+        
+        // If this alert wasn't in our previous set, it's new
+        if (!previousAlertIds.current.has(item.tokenId)) {
+          // Only add alerts from today
+          if (isToday(item.timestamp)) {
+            newAlerts.push(item);
+          }
+        }
+      }
+    });
+    
+    // Show notifications for each new alert
+    newAlerts.forEach(alert => {
+      showAlertNotification(alert);
+    });
+    
+    // Update our reference to the current set of alerts
+    previousAlertIds.current = currentAlertIds;
+  }, [tableData]);
+
+  // Close notification function
+  const closeNotification = (id) => {
+    setNotifications(prev => 
+      prev.map(notif => 
+        notif.id === id ? {...notif, show: false} : notif
+      )
+    );
+    
+    // Remove from array after animation completes
+    setTimeout(() => {
+      setNotifications(prev => prev.filter(notif => notif.id !== id));
+    }, 500);
+  };
+
+  useEffect(() => {
+    filterData(filterBy);
+  }, [tableData]);
 
   useEffect(() => {
     if (tableData.length > 0) {
@@ -157,10 +273,8 @@ function Dashboard() {
           gradingCount++;
         }
       }
-      console.log(alertCount);
+      
       setAlertCount(alertCount);
-      console.log(attendenceCount);
-      console.log(gradingCount);
 
       const actionCounts = {
         Attendence: attendenceCount,
@@ -168,7 +282,6 @@ function Dashboard() {
         Alert: alertCount,
       };
 
-      console.log(actionCounts);
       const actionLabels = Object.keys(actionCounts);
       const actionData = Object.values(actionCounts);
 
@@ -195,8 +308,50 @@ function Dashboard() {
     getTransactionHashes();
   }, []);
 
+  // For testing - show a sample notification when clicking on "Total Alerts"
+  const testNotification = () => {
+    const sampleAlert = {
+      teacherName: "Test Teacher",
+      timestamp: new Date().toISOString(), // Current date and time
+      type: "alert"
+    };
+    
+    showAlertNotification(sampleAlert);
+  };
+
   return (
     <div className="dashboard-main-component">
+      {/* Toast Container for Notifications */}
+      <ToastContainer className="toast-container" position="top-end">
+        {notifications.map((notification) => (
+          <Toast 
+            key={notification.id} 
+            show={notification.show} 
+            onClose={() => closeNotification(notification.id)} 
+            delay={5000} 
+            autohide 
+            className="notification-toast"
+          >
+            <Toast.Header closeButton>
+              <strong className="me-auto">{notification.title}</strong>
+              <small>just now</small>
+            </Toast.Header>
+            <Toast.Body>
+              {notification.message}
+              {notification.data && (
+                <div className="mt-2">
+                  <button 
+                    className="btn btn-sm btn-primary" 
+                    onClick={() => filterData("alert")}>
+                    View Alerts
+                  </button>
+                </div>
+              )}
+            </Toast.Body>
+          </Toast>
+        ))}
+      </ToastContainer>
+
       <div className="graph-container">
         <div className="single-graph">
           <div className="graph-header">
@@ -221,7 +376,7 @@ function Dashboard() {
           />
         </div>
         <div className="single-graph">
-          <h3>Total Alerts</h3>
+          <h3 onClick={testNotification} style={{ cursor: 'pointer' }}>Total Alerts</h3>
           <h3>{alertCount}</h3>
           <ReactApexChart
             options={pieChartOptions}
@@ -233,12 +388,24 @@ function Dashboard() {
       </div>
 
       <div className="tables-starts">
-        <h3 className="my-3">Log Entries</h3>
+        <div className="d-flex justify-content-between align-items-center my-3">
+          <h3>Log Entries</h3>
+          <div className="dropdown filter-dropdown">
+            <button className="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Filter By {filterBy !== 'all' ? `: ${filterBy}` : ''}
+            </button>
+            <ul className="dropdown-menu">
+              <li><button className="dropdown-item" onClick={() => filterData("all")}>All Logs</button></li>
+              <li><button className="dropdown-item" onClick={() => filterData("alert")}>Alerts</button></li>
+              <li><button className="dropdown-item" onClick={() => filterData("attendence")}>Attendance</button></li>
+              <li><button className="dropdown-item" onClick={() => filterData("grading")}>Grading</button></li>
+            </ul>
+          </div>
+        </div>
         <div className="table-wrapper">
           <table className="table table-modern table-hover">
             <thead>
               <tr>
-                
                 <th scope="col">Time</th>
                 <th scope="col">Ip Address</th>
                 <th scope="col">Log</th>
@@ -250,9 +417,9 @@ function Dashboard() {
               </tr>
             </thead>
             <tbody>
-              {tableData &&
-                tableData.length > 0 &&
-                tableData.slice().reverse().slice(showAllLogs ? 0 : 0, showAllLogs ? tableData.length : 5).map((item, i) => {
+              {filteredData &&
+                filteredData.length > 0 &&
+                filteredData.slice().reverse().slice(showAllLogs ? 0 : 0, showAllLogs ? filteredData.length : 5).map((item, i) => {
                   const handleDownload = () => {
                     if (item.data) {
                       const data = JSON.stringify(item.data, null, 2);
@@ -269,8 +436,7 @@ function Dashboard() {
                   };
 
                   return (
-                    <tr key={i}>
-                      
+                    <tr key={i} className={item.type === "alert" && isToday(item.timestamp) ? "new-alert-row" : ""}>
                       <td>{item.timestamp}</td>
                       <td>{item.ipAddress}</td>
                       <td>
@@ -296,10 +462,15 @@ function Dashboard() {
                 })}
             </tbody>
           </table>
-          {!showAllLogs && tableData && tableData.length > 5 && (
+          {!showAllLogs && filteredData && filteredData.length > 5 && (
             <button className="btn btn-success" onClick={() => setShowAllLogs(true)}>
               See More
             </button>
+          )}
+          {filteredData.length === 0 && (
+            <div className="text-center my-4">
+              <p>No logs found for the selected filter.</p>
+            </div>
           )}
         </div>
       </div>
