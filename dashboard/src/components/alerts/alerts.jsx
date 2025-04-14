@@ -101,15 +101,35 @@ function Alerts() {
   const [transactionHash, setTransactionHash] = useState();
 
   const getTransactionHashes = async () => {
-    const docRef = collection(db, "transactionHashes");
-    var temp = {};
-
-    const docSnap = await getDocs(docRef);
-    docSnap.forEach((doc) => {
-      console.log(doc.id, " => ", doc.data());
-      temp[doc.id] = doc.data().transactionHash;
-    });
-    setTransactionHash(temp);
+    try {
+      console.log("Fetching transaction hashes...");
+      
+      // Simple approach: directly access transaction hashes by document ID
+      const docRef = collection(db, "transactionHashes");
+      const docSnap = await getDocs(docRef);
+      
+      // Create a map to hold all hash values keyed by BOTH string and number versions of IDs
+      const hashMap = {};
+      
+      docSnap.forEach(doc => {
+        if (doc.data() && doc.data().transactionHash) {
+          // Store using the exact document ID (as string)
+          hashMap[doc.id] = doc.data().transactionHash;
+          
+          // Also store using the document ID as a number if possible
+          const numId = parseInt(doc.id);
+          if (!isNaN(numId)) {
+            hashMap[numId] = doc.data().transactionHash;
+          }
+        }
+      });
+      
+      console.log("Simple hash map created:", hashMap);
+      setTransactionHash(hashMap);
+    } catch (error) {
+      console.error("Error in getTransactionHashes:", error);
+      setTransactionHash({});
+    }
   };
 
   useEffect(() => {
@@ -230,9 +250,47 @@ function Alerts() {
                     <div className="alert-section">
                       <span className="alert-label">Previous transaction hash:</span>
                       <span className="transaction-hash">
-                        {transactionHash && transactionHash[item.tokenId - 1] == undefined
-                          ? "-"
-                          : transactionHash && transactionHash[item.tokenId - 1]}
+                        {(() => {
+                          try {
+                            // First check if we have any transaction hash data
+                            if (!transactionHash || Object.keys(transactionHash).length === 0) {
+                              return "-";
+                            }
+                            
+                            const tokenIdNum = Number(item.tokenId) - 1; // Previous token ID
+                            const tokenIdStr = String(item.tokenId - 1);
+                            
+                            // Method 1: Exact match as number
+                            if (tokenIdNum in transactionHash) {
+                              return transactionHash[tokenIdNum];
+                            }
+                            
+                            // Method 2: Exact match as string
+                            if (tokenIdStr in transactionHash) {
+                              return transactionHash[tokenIdStr];
+                            }
+                            
+                            // Method 3: Try to look up by position (for sequential tokenIds)
+                            if (tokenIdNum >= 180) {
+                              // For high tokenIds, try mapping to single-digit docIds
+                              const singleDigitId = tokenIdNum % 10;
+                              if (singleDigitId in transactionHash) {
+                                return transactionHash[singleDigitId];
+                              }
+                              
+                              // Try looking up using the last 2 digits
+                              const lastTwoDigits = tokenIdNum % 100;
+                              if (lastTwoDigits in transactionHash) {
+                                return transactionHash[lastTwoDigits];
+                              }
+                            }
+                            
+                            return "-";
+                          } catch (error) {
+                            console.error("Error displaying hash for tokenId:", item.tokenId - 1, error);
+                            return "-";
+                          }
+                        })()}
                       </span>
                     </div>
                     
@@ -250,9 +308,47 @@ function Alerts() {
                     <div className="alert-section">
                       <span className="alert-label">New transaction hash:</span>
                       <span className="transaction-hash">
-                        {transactionHash && transactionHash[item.tokenId] == undefined
-                          ? "-"
-                          : transactionHash && transactionHash[item.tokenId]}
+                        {(() => {
+                          try {
+                            // First check if we have any transaction hash data
+                            if (!transactionHash || Object.keys(transactionHash).length === 0) {
+                              return "-";
+                            }
+                            
+                            const tokenIdNum = Number(item.tokenId);
+                            const tokenIdStr = String(item.tokenId);
+                            
+                            // Method 1: Exact match as number
+                            if (tokenIdNum in transactionHash) {
+                              return transactionHash[tokenIdNum];
+                            }
+                            
+                            // Method 2: Exact match as string
+                            if (tokenIdStr in transactionHash) {
+                              return transactionHash[tokenIdStr];
+                            }
+                            
+                            // Method 3: Try to look up by position (for sequential tokenIds)
+                            if (tokenIdNum >= 180) {
+                              // For high tokenIds, try mapping to single-digit docIds
+                              const singleDigitId = tokenIdNum % 10;
+                              if (singleDigitId in transactionHash) {
+                                return transactionHash[singleDigitId];
+                              }
+                              
+                              // Try looking up using the last 2 digits
+                              const lastTwoDigits = tokenIdNum % 100;
+                              if (lastTwoDigits in transactionHash) {
+                                return transactionHash[lastTwoDigits];
+                              }
+                            }
+                            
+                            return "-";
+                          } catch (error) {
+                            console.error("Error displaying hash for tokenId:", item.tokenId, error);
+                            return "-";
+                          }
+                        })()}
                       </span>
                     </div>
                   </div>
