@@ -14,8 +14,19 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
-export const db = getFirestore(app);
+let app;
+let db;
+
+try {
+  console.log("Initializing Firebase...");
+  app = initializeApp(firebaseConfig);
+  db = getFirestore(app);
+  console.log("Firebase initialized successfully");
+} catch (error) {
+  console.error("Error initializing Firebase:", error);
+}
+
+export { db };
 
 export const getAdmin = async () => {
   let students;
