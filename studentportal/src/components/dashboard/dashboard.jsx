@@ -333,7 +333,7 @@ const Dashboard = () => {
             <div className="action-boxes">
               <div
                 className="box"
-                onClick={() => navigate(`/attendence/${selectedCourse}`)}
+                onClick={() => navigate(`/attendance/${selectedCourse}`)}
               >
                 Attendance
               </div>

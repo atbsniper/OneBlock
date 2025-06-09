@@ -1,0 +1,145 @@
+.attendance-container {
+    padding: 60px;
+    padding-bottom: 100px;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 16px;
+    color: #080000;
+    position: relative;
+    min-height: 100vh;
+    box-sizing: border-box;
+  }
+  
+  .attendance-content {
+    width: 80%; 
+    margin-top: 10px;
+  }
+  
+  .date-picker {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .date-picker label {
+    margin-right: 10px;
+  }
+  
+  .attendance-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  
+  .attendance-table th,
+  .attendance-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+    color: rgb(0, 0, 0);
+    background-color: #ffffff; 
+  }
+  
+  .attendance-table th {
+    background-color: #1e354ed3; 
+    color: white;
+  }
+  
+  .attendance-table td.serial-number {
+    width: 50px; 
+  }
+  .attendance-table td.checkbox {
+    text-align: center; 
+  }
+  
+  .attendance-table td.roll-number {
+    width: 150px; 
+  }
+  
+  .attendance-table td.student-name {
+    width: 200px;
+  }
+  .attendance-table td.n
+  .save-button {
+    padding: 10px 20px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .save-button:hover {
+    background-color: #218838;
+  }
+  
+  .search-container {
+    margin-bottom: 20px;
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  .search-input {
+    width: 100%;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+  }
+  
+  .search-input:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+  }
+  
+  .search-input::placeholder {
+    color: #aaa;
+  }
+  
+  .back-button {
+    background-color: #f30000 !important;
+    color: #fff !important;
+    padding: 12px 30px !important;
+    border: none !important;
+    border-radius: 5px !important;
+    cursor: pointer !important;
+    font-weight: bold !important;
+    position: fixed !important;
+    bottom: 30px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    z-index: 1000 !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
+    width: auto !important;
+    display: block !important;
+    margin: 0 !important;
+  }
+  
+  .back-button:hover {
+    background-color: #c70000 !important;
+  }
+  
+  .logout-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+  }
+  
+  .logout-container button {
+    background-color: #ff0000;
+    color: white;
+    border: none;
+    padding: 10px 30px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+  }
+  
+  .logout-container button:hover {
+    background-color: #cc0000;
+  }

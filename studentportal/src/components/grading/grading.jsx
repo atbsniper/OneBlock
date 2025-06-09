@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { db, getStudents } from "../../firebase/firebaseConfig";
 import { useParams } from "react-router-dom";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc, collection, getDocs } from "firebase/firestore";
 import { toast } from "react-toastify";
 import axios from "axios";
 import Banner from "../banner/Banner"; 
 import "./grading.css";
+import { sendBatchGradeNotifications } from "./gradingNotifier";
 
 const Grading = () => {
   const { id } = useParams();
@@ -109,6 +110,35 @@ const Grading = () => {
   const saveGrades = async () => {
     console.log(grades);
     console.log(prevGrades);
+    
+    // Get course details for notification
+    const courseDocRef = doc(db, "courses", id);
+    let courseName = id;
+    try {
+      const courseDocSnap = await getDoc(courseDocRef);
+      if (courseDocSnap.exists()) {
+        courseName = courseDocSnap.data().name || id;
+      }
+    } catch (error) {
+      console.error("Error fetching course details:", error);
+    }
+    
+    // Get student Firebase IDs mapping
+    const studentIdMap = {};
+    try {
+      const studentsCollectionRef = collection(db, "students");
+      const studentSnapshot = await getDocs(studentsCollectionRef);
+      studentSnapshot.forEach(doc => {
+        const studentData = doc.data();
+        if (studentData.rollNo) {
+          studentIdMap[studentData.rollNo] = doc.id; // Map rollNo to Firestore ID
+        }
+      });
+      console.log("Student ID mapping:", studentIdMap);
+    } catch (error) {
+      console.error("Error creating student ID mapping:", error);
+    }
+    
     if (Object.keys(prevGrades).length === 0) {
       console.log("empty grades first time added");
       const gradesCollectionRef = doc(db, "grades", id);
@@ -127,7 +157,43 @@ const Grading = () => {
           })
           .then(async (response) => {
             console.log(response.data);
+            
+            // Save grades to Firestore
             await setDoc(gradesCollectionRef, grades);
+            
+            // Send notifications for new grades
+            try {
+              // Format grades data for notifications
+              const formattedGrades = {};
+              Object.keys(grades).forEach(rollNo => {
+                if (grades[rollNo]) {
+                  // Use Firestore ID instead of rollNo
+                  const studentId = studentIdMap[rollNo];
+                  if (studentId) {
+                    formattedGrades[studentId] = {
+                      quizzes: grades[rollNo].quiz,
+                      assignments: grades[rollNo].assignment,
+                      midterm: grades[rollNo].mid,
+                      final: grades[rollNo].final
+                    };
+                  }
+                }
+              });
+              
+              // Send batch notifications
+              await sendBatchGradeNotifications(
+                formattedGrades,
+                id,
+                "all", // Indicate that all grade components are updated
+                courseName,
+                loggedInUser.name || "Instructor"
+              );
+              
+              console.log("Grade notifications sent successfully");
+            } catch (notificationError) {
+              console.error("Error sending grade notifications:", notificationError);
+            }
+            
             toast.success("Grades saved successfully.");
           })
           .catch((error) => {
@@ -156,7 +222,49 @@ const Grading = () => {
           })
           .then(async (response) => {
             console.log(response.data);
+            
+            // Save grades to Firestore
             await setDoc(gradesCollectionRef, grades);
+            
+            // Send notifications for updated grades
+            try {
+              // Format grades data for notifications with previous values
+              const formattedGrades = {};
+              Object.keys(grades).forEach(rollNo => {
+                if (grades[rollNo]) {
+                  // Use Firestore ID instead of rollNo
+                  const studentId = studentIdMap[rollNo];
+                  if (studentId) {
+                    formattedGrades[studentId] = {
+                      quizzes: grades[rollNo].quiz,
+                      assignments: grades[rollNo].assignment,
+                      midterm: grades[rollNo].mid,
+                      final: grades[rollNo].final,
+                      previousGrades: prevGrades[rollNo] ? {
+                        quizzes: prevGrades[rollNo].quiz,
+                        assignments: prevGrades[rollNo].assignment,
+                        midterm: prevGrades[rollNo].mid,
+                        final: prevGrades[rollNo].final
+                      } : undefined
+                    };
+                  }
+                }
+              });
+              
+              // Send batch notifications
+              await sendBatchGradeNotifications(
+                formattedGrades,
+                id,
+                "all", // Indicate that all grade components are updated
+                courseName,
+                loggedInUser.name || "Instructor"
+              );
+              
+              console.log("Grade notifications sent successfully");
+            } catch (notificationError) {
+              console.error("Error sending grade notifications:", notificationError);
+            }
+            
             toast.success("Grades saved successfully.");
           })
           .catch((error) => {
